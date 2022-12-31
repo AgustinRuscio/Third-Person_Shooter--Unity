@@ -44,6 +44,11 @@ public class PlayerView
         }
     }
 
+    public void SetCrouchAnim(bool crouching)
+    {
+        _animator.SetBool("Crouch", crouching);
+    }
+
     public void SetAimAnim(bool _isAiming)
     {
         _animator.SetBool("Aim", _isAiming);

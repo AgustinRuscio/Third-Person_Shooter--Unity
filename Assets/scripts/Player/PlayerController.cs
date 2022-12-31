@@ -33,6 +33,7 @@ public class PlayerController
 
         ArtificialUpdateLogics = CheckJump;
         ArtificialUpdateLogics += CheckShoot;
+        ArtificialUpdateLogics += CheckCrouch;
     }
 
     public void ArtificialUpdate()
@@ -78,27 +79,34 @@ public class PlayerController
 
     private void CheckAim()
     {
-        if (Input.GetButton("Aim"))
-        {
-            _player.Aim(true);
-        }
-        else
-        {
-            _player.Aim(false);   
-        }
+        _player.Aim(Input.GetButton("Aim"));
+
+//         if (Input.GetButton("Aim"))
+//         {
+//             _player.Aim(true);
+//         }
+//         else
+//         {
+//             _player.Aim(false);   
+//         }
     }
 
     private void CheckShoot()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            _player.Shoot(true);
+        _player.Shoot(Input.GetButton("Fire1"));
 
-        }
-        else
-        {
-            _player.Shoot(false);
+//         if (Input.GetButton("Fire1"))
+//         {
+//             _player.Shoot(true);
+//         }
+//         else
+//         {
+//             _player.Shoot(false);
+//         }
+    }
 
-        }
+    private void CheckCrouch()
+    {
+        _player.Crouch(Input.GetButton("Crouch"));
     }
 }

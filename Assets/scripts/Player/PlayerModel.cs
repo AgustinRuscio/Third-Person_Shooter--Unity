@@ -12,6 +12,7 @@ public class PlayerModel : MonoBehaviour
 {
     [SerializeField]
     private float _speed;
+    private float realSpeed;
 
     [SerializeField]
     private float _forceJump;
@@ -40,6 +41,8 @@ public class PlayerModel : MonoBehaviour
 
     private bool _onSprint = false;
 
+    private bool _isCrouching;
+
     [SerializeField]
     private float _shootCoolDown;
 
@@ -50,8 +53,6 @@ public class PlayerModel : MonoBehaviour
     private PlayerController _playerController;
 
     private PlayerView _playerView;
-
-    private GenericTimer _shootTimer;
 
 
     [SerializeField]
@@ -70,8 +71,6 @@ public class PlayerModel : MonoBehaviour
         _playerController = new PlayerController(this);
 
         _playerView = new PlayerView(_myAnimator, this);
-
-        _shootTimer = new GenericTimer(_shootCoolDown);
 
         _myRigidBody = GetComponent<Rigidbody>();
 
@@ -124,8 +123,6 @@ public class PlayerModel : MonoBehaviour
     #region MOVEMENT
     public void MovePlayer(Vector3 dir, bool sprint)
     {
-        float realSpeed;
-
         _onSprint = sprint;
 
         _playerView.Run(dir.x, dir.z, sprint, _aiming);
@@ -153,6 +150,9 @@ public class PlayerModel : MonoBehaviour
             {
                 _stamina = 0;
             }
+        }else if (_isCrouching)
+        {
+            realSpeed = _speed * 0.6f;
         }
         else
         {
@@ -240,8 +240,15 @@ public class PlayerModel : MonoBehaviour
             {
                 Debug.Log("Sonido de no balas");
             }
-
         }
+    }
+
+    public void Crouch(bool crouched)
+    {
+        _isCrouching = crouched;
+
+        _playerView.SetCrouchAnim(_isCrouching);
+     
     }
 
     #endregion
