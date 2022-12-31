@@ -18,10 +18,7 @@ public class GenericTimer
         coolDown = _coolDown;
     }
     
-    public void RunTimer()
-    {
-        timer = timer + 1 * Time.deltaTime;
-    }
+    public void RunTimer() => timer = timer + 1 * Time.deltaTime;
 
     public bool CheckCoolDown(bool acendingTimer)
     {
@@ -41,9 +38,5 @@ public class GenericTimer
         }
     }
 
-    public void ResetTimer()
-    {
-        timer = 0;
-    }
-
+    public void ResetTimer() => timer = 0;
 }

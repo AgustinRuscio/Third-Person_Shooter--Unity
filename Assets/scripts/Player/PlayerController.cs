@@ -36,15 +36,9 @@ public class PlayerController
         ArtificialUpdateLogics += CheckCrouch;
     }
 
-    public void ArtificialUpdate()
-    {
-        ArtificialUpdateLogics();
-    }
+    public void ArtificialUpdate() => ArtificialUpdateLogics();
 
-    public void ArtificialFixedUpdate()
-    {
-        ArtificialFixedUpdateLogics();
-    }
+    public void ArtificialFixedUpdate() => ArtificialFixedUpdateLogics();
 
     private void CheckMovement()
     {
@@ -54,9 +48,7 @@ public class PlayerController
         bool sprint = Input.GetButton("Sprint");
 
         if (x != 0 || z != 0)
-        {
             _player.MovePlayer(new Vector3(x, 0, z), sprint);
-        }
     }
 
     private void CheckCamera()
@@ -64,49 +56,21 @@ public class PlayerController
         float horizontalCam = Input.GetAxis("Mouse X");
 
         if (horizontalCam != 0)
-        {
             _player.RotateWithMouse(horizontalCam);
-        }
     }
 
     private void CheckJump()
     {
         if (Input.GetButtonDown("Jump"))
-        {
             _player.Jump();
-        }
     }
 
-    private void CheckAim()
-    {
-        _player.Aim(Input.GetButton("Aim"));
+    private void CheckAim() => _player.Aim(Input.GetButton("Aim"));
+    
 
-//         if (Input.GetButton("Aim"))
-//         {
-//             _player.Aim(true);
-//         }
-//         else
-//         {
-//             _player.Aim(false);   
-//         }
-    }
+    private void CheckShoot() =>_player.Shoot(Input.GetButton("Fire1"));
+    
 
-    private void CheckShoot()
-    {
-        _player.Shoot(Input.GetButton("Fire1"));
-
-//         if (Input.GetButton("Fire1"))
-//         {
-//             _player.Shoot(true);
-//         }
-//         else
-//         {
-//             _player.Shoot(false);
-//         }
-    }
-
-    private void CheckCrouch()
-    {
-        _player.Crouch(Input.GetButton("Crouch"));
-    }
+    private void CheckCrouch() => _player.Crouch(Input.GetButton("Crouch"));
+   
 }

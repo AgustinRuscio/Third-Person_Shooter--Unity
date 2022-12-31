@@ -1,3 +1,8 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,18 +25,9 @@ public class Hud : MonoBehaviour
             instance= this;
     }
 
-    public void UpdateStaminaBar(float stamina, float maxStamina)
-    {
-        _staminaBar.size = stamina / maxStamina;
-    }
+    public void UpdateStaminaBar(float stamina, float maxStamina) => _staminaBar.size = stamina / maxStamina;
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth)
-    {
-        _healthBar.size = currentHealth/ maxHealth;
-    }
+    public void UpdateHealthBar(float currentHealth, float maxHealth) => _healthBar.size = currentHealth / maxHealth;
 
-    public void UpdateShootBar(float shootTime, float maxShootTime)
-    {
-        _shootBar.size = shootTime / maxShootTime;
-    }
+    public void UpdateShootBar(float shootTime, float maxShootTime) => _shootBar.size = shootTime / maxShootTime;
 }

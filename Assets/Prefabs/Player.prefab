@@ -827,12 +827,16 @@ MonoBehaviour:
   _speed: 300
   _forceJump: 5
   _stamina: 100
+  _staminaReduceForJump: 20
   _maxStamina: 100
   _shootTime: 60
   _maxShootTime: 60
   _shootCoolDown: 5
   _timeOnCoolDown: 3
   _myAnimator: {fileID: 2026894848603707440}
+  _myCollider: {fileID: 216038906041401561}
+  _colliderCrouchPos: {x: 0, y: 0.55, z: 0}
+  _crouchColliderlHeight: 1.1
   _shootPoint: {fileID: 2469224362363395652}
   _shootBar: {fileID: 895650621484966861}
 --- !u!136 &216038906041401561

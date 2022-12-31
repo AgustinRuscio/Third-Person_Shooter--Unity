@@ -10,11 +10,11 @@ using UnityEngine;
 
 public class PlayerView
 {
+    private bool _sprint;
+
     private Animator _animator;
 
     private MonoBehaviour _mono;
-
-    private bool _sprint;
 
     public PlayerView(Animator playerAnimator, MonoBehaviour playerMonoBehaviour)
     {
@@ -44,15 +44,9 @@ public class PlayerView
         }
     }
 
-    public void SetCrouchAnim(bool crouching)
-    {
-        _animator.SetBool("Crouch", crouching);
-    }
+    public void SetCrouchAnim(bool crouching) => _animator.SetBool("Crouch", crouching);
 
-    public void SetAimAnim(bool _isAiming)
-    {
-        _animator.SetBool("Aim", _isAiming);
-    }
+    public void SetAimAnim(bool _isAiming) => _animator.SetBool("Aim", _isAiming);
 
     public void SetShootAnim(bool shooting)
     {
@@ -68,10 +62,7 @@ public class PlayerView
         _mono.StartCoroutine(ChangeBoolParameter(parameter));
     }
 
-    public void Falling(bool falling)
-    {
-        _animator.SetBool("Falling", falling);
-    }
+    public void Falling(bool falling) => _animator.SetBool("Falling", falling);
 
     IEnumerator ChangeBoolParameter(string parameterModificated)
     {

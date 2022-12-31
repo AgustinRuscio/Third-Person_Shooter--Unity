@@ -34,29 +34,41 @@ public class PlayerModel : MonoBehaviour
     [SerializeField]
     private float _maxShootTime;
 
-    private bool _aiming = false;
-    private bool _shooting = false;
-
-    private bool _falling;
-
-    private bool _onSprint = false;
-
-    private bool _isCrouching;
-
     [SerializeField]
     private float _shootCoolDown;
 
     [SerializeField]
     private float _timeOnCoolDown;
 
+    private bool _aiming = false;
+    private bool _shooting = false;
+    private bool _falling;
+    private bool _onSprint = false;
+    private bool _isCrouching;
+
+    
 
     private PlayerController _playerController;
 
     private PlayerView _playerView;
 
 
+
     [SerializeField]
     private Animator _myAnimator;
+
+    [SerializeField]
+    private CapsuleCollider _myCollider;
+
+    private Vector3 _colliderOriginalPos;
+
+    [SerializeField]
+    private Vector3 _colliderCrouchPos;
+
+    private float _originalColliderlHeight;
+
+    [SerializeField]
+    private float _crouchColliderlHeight;
 
     private Rigidbody _myRigidBody;
 
@@ -74,6 +86,10 @@ public class PlayerModel : MonoBehaviour
 
         _myRigidBody = GetComponent<Rigidbody>();
 
+        _colliderOriginalPos = _myCollider.center;
+
+        _originalColliderlHeight = _myCollider.height;
+
         _stamina = _maxStamina;
 
         _maxShootTime = _shootTime;
@@ -90,6 +106,9 @@ public class PlayerModel : MonoBehaviour
 
         Hud.instance.UpdateStaminaBar(_stamina, _maxStamina);
         Hud.instance.UpdateShootBar(_shootTime, _maxShootTime);
+
+
+        _playerView.SetCrouchAnim(_isCrouching);
 
         if (!_onSprint)
         {
@@ -150,7 +169,8 @@ public class PlayerModel : MonoBehaviour
             {
                 _stamina = 0;
             }
-        }else if (_isCrouching)
+        }
+        else if (_isCrouching)
         {
             realSpeed = _speed * 0.6f;
         }
@@ -222,7 +242,6 @@ public class PlayerModel : MonoBehaviour
 
     public void Shoot(bool onShoot)
     {
-
         _shooting = onShoot;
 
         if (_aiming && _shooting)
@@ -247,8 +266,16 @@ public class PlayerModel : MonoBehaviour
     {
         _isCrouching = crouched;
 
-        _playerView.SetCrouchAnim(_isCrouching);
-     
+        if (_isCrouching)
+        {
+            _myCollider.center = _colliderCrouchPos;
+            _myCollider.height = _crouchColliderlHeight;
+        }
+        else
+        {
+            _myCollider.center = _colliderOriginalPos;
+            _myCollider.height = _originalColliderlHeight;
+        }
     }
 
     #endregion

@@ -109,7 +109,6 @@ public class CameraController : MonoBehaviour
         transform.position = follow.position + direction * distance;
         transform.rotation = Quaternion.LookRotation(follow.position - transform.position);
 
-
         if (aim)
             currentDistance = aimDistance;
         else if(_sprint)
@@ -143,13 +142,7 @@ public class CameraController : MonoBehaviour
         };
     }
 
-    public void SetAimCamera(bool isAiming)
-    {
-        aim = isAiming;
-    }
+    public void SetAimCamera(bool isAiming) => aim = isAiming;
 
-    public void SetSprintCamera(bool isSprinting)
-    {
-        _sprint = isSprinting;
-    }
+    public void SetSprintCamera(bool isSprinting) => _sprint = isSprinting;
 }
