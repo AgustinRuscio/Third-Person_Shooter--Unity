@@ -16,8 +16,13 @@ public class PlayerModel : MonoBehaviour
     [SerializeField]
     private float _forceJump;
 
+    private float realJumpForce;
+
     [SerializeField]
     private float _stamina;
+
+    [SerializeField]
+    private float _staminaReduceForJump;
 
     [SerializeField]
     private float _maxStamina;
@@ -134,10 +139,12 @@ public class PlayerModel : MonoBehaviour
             realSpeed = (_speed * 2);
             dir.x = 0;
 
+            realJumpForce = _forceJump * 1.5f;
+
             if(dir.z < 0)
             {
                 dir.z = 0;
-            }  
+            }
 
             _stamina -= 45f * Time.deltaTime;
             CameraController.instance.SetSprintCamera(_onSprint);
@@ -169,9 +176,20 @@ public class PlayerModel : MonoBehaviour
 
     public void Jump()
     {
+        if (!_onSprint && _stamina >= _staminaReduceForJump)
+        {
+            realJumpForce = _forceJump;
+        }
+
+        if(_stamina < _staminaReduceForJump)
+        {
+            realJumpForce = _forceJump * 0.5f;
+        }
+
         if (inFloor && !_aiming)
         {
-            _myRigidBody.AddForce(Vector3.up * _forceJump, ForceMode.Impulse);
+            _myRigidBody.AddForce(Vector3.up * realJumpForce, ForceMode.Impulse);
+            _stamina -= _staminaReduceForJump;
             _playerView.Jump();
         }
     }
@@ -180,7 +198,7 @@ public class PlayerModel : MonoBehaviour
     {
         get
         {
-            return (Physics.Raycast(transform.position, Vector3.down, 0.1f));
+            return (Physics.Raycast(transform.position, Vector3.down, 0.3f));
         }
     }
 
