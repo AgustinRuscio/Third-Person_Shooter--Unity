@@ -29,11 +29,16 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float aimDistance;
 
+    [SerializeField]
+    private float sprintDistance;
+
     private float sensitivity;
 
     public Transform player;
 
-    public bool aim;
+    private bool aim;
+
+    private bool _sprint;
 
     private void Awake()
     {
@@ -92,28 +97,25 @@ public class CameraController : MonoBehaviour
             -Mathf.Sin(StartAngle.x) * Mathf.Cos(StartAngle.y));
 
         RaycastHit hit;
-        float distance = defaultMaxDistance;
+        float distance = currentDistance;
         Vector3[] points = GetCameraCollisionPoints(direction);
 
         foreach (Vector3 point in points)
         {
-            if (Physics.Raycast(point, direction, out hit, defaultMaxDistance))
-            {
+            if (Physics.Raycast(point, direction, out hit, currentDistance))
                 distance = Mathf.Min((hit.point - follow.position).magnitude, distance);
-            }
         }
 
         transform.position = follow.position + direction * distance;
         transform.rotation = Quaternion.LookRotation(follow.position - transform.position);
 
-        if (!aim)
-        {
-            defaultMaxDistance = currentDistance;
-        }
-        else
-        {
-            defaultMaxDistance = aimDistance;
-        }
+
+        if (aim)
+            currentDistance = aimDistance;
+        else if(_sprint)
+            currentDistance = sprintDistance;
+        else if(!_sprint || !aim)
+            currentDistance = defaultMaxDistance;
     }
 
     private void CalculateNearPlaneSize()
@@ -144,5 +146,10 @@ public class CameraController : MonoBehaviour
     public void SetAimCamera(bool isAiming)
     {
         aim = isAiming;
+    }
+
+    public void SetSprintCamera(bool isSprinting)
+    {
+        _sprint = isSprinting;
     }
 }

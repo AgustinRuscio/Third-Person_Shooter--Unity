@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 public class PlayerView
@@ -52,13 +53,24 @@ public class PlayerView
     {
         string parameter = "Shoot";
         _animator.SetBool(parameter, shooting);
+    }
 
-        //_mono.StartCoroutine(ChangeBoolParameter(parameter));
+    public void Jump()
+    {
+        string parameter = "Jump";
+        _animator.SetBool(parameter, true);
+
+        _mono.StartCoroutine(ChangeBoolParameter(parameter));
+    }
+
+    public void Falling(bool falling)
+    {
+        _animator.SetBool("Falling", falling);
     }
 
     IEnumerator ChangeBoolParameter(string parameterModificated)
     {
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForSeconds(0.6f);
         _animator.SetBool(parameterModificated, false);
     }
 }

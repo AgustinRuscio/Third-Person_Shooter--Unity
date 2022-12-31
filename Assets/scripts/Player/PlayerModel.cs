@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerModel : MonoBehaviour
 {
@@ -15,8 +16,22 @@ public class PlayerModel : MonoBehaviour
     [SerializeField]
     private float _forceJump;
 
+    [SerializeField]
+    private float _stamina;
+
+    [SerializeField]
+    private float _maxStamina;
+
+    [SerializeField]
+    private float _shootTime;
+
+    [SerializeField]
+    private float _maxShootTime;
+
     private bool _aiming = false;
     private bool _shooting = false;
+
+    private bool _falling;
 
     private bool _onSprint = false;
 
@@ -25,6 +40,7 @@ public class PlayerModel : MonoBehaviour
 
     [SerializeField]
     private float _timeOnCoolDown;
+
 
     private PlayerController _playerController;
 
@@ -41,6 +57,9 @@ public class PlayerModel : MonoBehaviour
     [SerializeField]
     private Transform _shootPoint;
 
+    [SerializeField]
+    private GameObject _shootBar;
+
     void Awake()
     {
         _playerController = new PlayerController(this);
@@ -50,6 +69,10 @@ public class PlayerModel : MonoBehaviour
         _shootTimer = new GenericTimer(_shootCoolDown);
 
         _myRigidBody = GetComponent<Rigidbody>();
+
+        _stamina = _maxStamina;
+
+        _maxShootTime = _shootTime;
     }
 
     private void FixedUpdate()
@@ -60,6 +83,37 @@ public class PlayerModel : MonoBehaviour
     void Update()
     {
         _playerController.ArtificialUpdate();
+
+        Hud.instance.UpdateStaminaBar(_stamina, _maxStamina);
+        Hud.instance.UpdateShootBar(_shootTime, _maxShootTime);
+
+        if (!_onSprint)
+        {
+            _stamina += 15f * Time.deltaTime;
+
+            if(_stamina > _maxStamina)
+                _stamina = _maxStamina;
+            CameraController.instance.SetSprintCamera(_onSprint);
+        }
+
+        if (!_shooting)
+        {
+            _shootTime += 15f * Time.deltaTime;
+
+            if(_shootTime > _maxShootTime)
+                _shootTime = _maxShootTime;     
+        }
+
+        if (!inFloor)
+        {
+            _falling = true;
+        }
+        else
+        {
+            _falling = false;
+        }
+
+        _playerView.Falling(_falling);
     }
 
     #region MOVEMENT
@@ -75,7 +129,7 @@ public class PlayerModel : MonoBehaviour
         {
             realSpeed = (_speed * 0.5f);
         }
-        else if (_onSprint && dir.z > 0)
+        else if (_onSprint && dir.z > 0 && _stamina > 0)
         {
             realSpeed = (_speed * 2);
             dir.x = 0;
@@ -83,8 +137,15 @@ public class PlayerModel : MonoBehaviour
             if(dir.z < 0)
             {
                 dir.z = 0;
-            }
+            }  
 
+            _stamina -= 45f * Time.deltaTime;
+            CameraController.instance.SetSprintCamera(_onSprint);
+
+            if (_stamina <= 0)
+            {
+                _stamina = 0;
+            }
         }
         else
         {
@@ -108,9 +169,10 @@ public class PlayerModel : MonoBehaviour
 
     public void Jump()
     {
-        if (inFloor)
+        if (inFloor && !_aiming)
         {
             _myRigidBody.AddForce(Vector3.up * _forceJump, ForceMode.Impulse);
+            _playerView.Jump();
         }
     }
 
@@ -136,7 +198,8 @@ public class PlayerModel : MonoBehaviour
         _playerView.SetAimAnim(_aiming);
 
         CameraController.instance.SetAimCamera(_aiming);
-        
+
+        _shootBar.SetActive(_aiming);
     }
 
     public void Shoot(bool onShoot)
@@ -144,34 +207,23 @@ public class PlayerModel : MonoBehaviour
 
         _shooting = onShoot;
 
-        //_playerView.SetShootAnim(_shooting);
-
         if (_aiming && _shooting)
         {
-            _shootTimer.RunTimer();
-
-            if (_shootTimer.CheckCoolDown(false))
+            if (_shootTime > 0)
             {
-                Debug.Log("Shooting");
+                Debug.Log("Sonido de disparo");
 
-                //                 RaycastHit hit;
-                // 
-                //                 var raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, 1000);
+                RaycastHit hit;
+                var raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, 1000);
+
+                _shootTime -= 35f * Time.deltaTime;
             }
             else
             {
-                Debug.Log("OnCoolDown");
-                StartCoroutine(OnCoolDown(_timeOnCoolDown));
+                Debug.Log("Sonido de no balas");
             }
 
         }
-    }
-
-    IEnumerator OnCoolDown(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-
-        _shootTimer.ResetTimer();
     }
 
     #endregion
