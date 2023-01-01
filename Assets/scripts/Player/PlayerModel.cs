@@ -128,13 +128,9 @@ public class PlayerModel : MonoBehaviour
         }
 
         if (!inFloor)
-        {
             _falling = true;
-        }
         else
-        {
             _falling = false;
-        }
 
         _playerView.Falling(_falling);
     }
@@ -254,12 +250,18 @@ public class PlayerModel : MonoBehaviour
                 var raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, 1000);
 
                 _shootTime -= 35f * Time.deltaTime;
+
+                _playerView.SetShootAnim(true);
             }
             else
-            {
-                Debug.Log("Sonido de no balas");
-            }
+                _playerView.SetShootAnim(false);
         }
+        else
+        {
+            _playerView.SetShootAnim(false);
+        }
+
+        
     }
 
     public void Crouch(bool crouched)

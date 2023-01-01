@@ -51,7 +51,7 @@ public class PlayerView
     public void SetShootAnim(bool shooting)
     {
         string parameter = "Shoot";
-        _animator.SetBool(parameter, shooting);
+        _animator.SetBool("Shoot", shooting);
     }
 
     public void Jump()
