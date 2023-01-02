@@ -19,6 +19,9 @@ public class CameraController : MonoBehaviour
     private Vector2 nearPlaneSize;
 
     public Transform follow;
+    public Transform crouchFollow;
+
+    public Transform currentFollow;
 
     [SerializeField]
     private float defaultMaxDistance;
@@ -28,6 +31,9 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     private float aimDistance;
+
+    [SerializeField]
+    private float crouchDistance;
 
     [SerializeField]
     private float sprintDistance;
@@ -40,11 +46,15 @@ public class CameraController : MonoBehaviour
 
     private bool _sprint;
 
+    private bool _crouch;
+
     private void Awake()
     {
         instance = this;
 
         currentDistance = defaultMaxDistance;
+
+        currentFollow = follow;
     }
 
     void Start()
@@ -71,6 +81,17 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         float horizontalCam = Input.GetAxis("Mouse X");
+
+        if (_crouch)
+        {
+            Vector3.Lerp(follow.position, crouchFollow.position, 5);
+            currentFollow = crouchFollow;
+        }
+        else
+        {
+            Vector3.Lerp( crouchFollow.position, follow.position, 5);
+            currentFollow = follow;
+        }
 
         if (horizontalCam != 0)
         {
@@ -103,16 +124,19 @@ public class CameraController : MonoBehaviour
         foreach (Vector3 point in points)
         {
             if (Physics.Raycast(point, direction, out hit, currentDistance))
-                distance = Mathf.Min((hit.point - follow.position).magnitude, distance);
+                distance = Mathf.Min((hit.point - currentFollow.position).magnitude, distance);
         }
 
-        transform.position = follow.position + direction * distance;
-        transform.rotation = Quaternion.LookRotation(follow.position - transform.position);
+        transform.position = currentFollow.position + direction * distance;
+        transform.rotation = Quaternion.LookRotation(currentFollow.position - transform.position);
+
 
         if (aim)
             currentDistance = aimDistance;
         else if(_sprint)
             currentDistance = sprintDistance;
+        else if(_crouch)
+            currentDistance = crouchDistance;
         else if(!_sprint || !aim)
             currentDistance = defaultMaxDistance;
     }
@@ -127,7 +151,8 @@ public class CameraController : MonoBehaviour
 
     private Vector3[] GetCameraCollisionPoints(Vector3 direction)
     {
-        Vector3 position = follow.position;
+        Vector3 position = crouchFollow.position;
+
         Vector3 center = position + direction * (camera.nearClipPlane + 0.2f);
 
         Vector3 right = transform.right * nearPlaneSize.x;
@@ -145,4 +170,6 @@ public class CameraController : MonoBehaviour
     public void SetAimCamera(bool isAiming) => aim = isAiming;
 
     public void SetSprintCamera(bool isSprinting) => _sprint = isSprinting;
+
+    public void SetCrouchCamera(bool isCrouching) => _crouch = isCrouching;
 }

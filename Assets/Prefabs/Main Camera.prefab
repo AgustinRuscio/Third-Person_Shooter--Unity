@@ -96,10 +96,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae263196ee5800e4ea8c27508c55ccbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartAngle: {x: 1.5707964, y: 0}
+  StartAngle: {x: 17.21, y: 0}
   follow: {fileID: 0}
+  crouchFollow: {fileID: 0}
+  currentFollow: {fileID: 0}
   defaultMaxDistance: 1.5
   currentDistance: 0
   aimDistance: 0.25
+  crouchDistance: 0.57
   sprintDistance: 0.6
   player: {fileID: 0}

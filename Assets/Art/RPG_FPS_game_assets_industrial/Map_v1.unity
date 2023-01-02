@@ -6850,6 +6850,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000013149834228, guid: 6857ff1d3761e21479727f3b27cc8f68, type: 3}
   m_PrefabInstance: {fileID: 630669528}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &652352022 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1721930564780709239, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+  m_PrefabInstance: {fileID: 1156416778}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &652369298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13360,6 +13365,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1566479603, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566479603, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1802267335, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1802267335, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2026894848233615997, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
       propertyPath: m_Name
       value: Player
@@ -13406,6 +13427,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2026894848233615998, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329413682059734253, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2329413682059734253, guid: 20a33cbba5788454a9c34f6079d39ef6, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -23251,9 +23280,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 596498493}
     - target: {fileID: 3030333266769409262, guid: 08a20c08b60db3544bd3d14844090969, type: 3}
-      propertyPath: StartAngle.x
-      value: 17.21
-      objectReference: {fileID: 0}
+      propertyPath: crouchFollow
+      value: 
+      objectReference: {fileID: 652352022}
     - target: {fileID: 3030333266769409263, guid: 08a20c08b60db3544bd3d14844090969, type: 3}
       propertyPath: m_RootOrder
       value: 1

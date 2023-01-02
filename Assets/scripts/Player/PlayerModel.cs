@@ -268,6 +268,8 @@ public class PlayerModel : MonoBehaviour
     {
         _isCrouching = crouched;
 
+        CameraController.instance.SetCrouchCamera(_isCrouching);
+
         if (_isCrouching)
         {
             _myCollider.center = _colliderCrouchPos;
