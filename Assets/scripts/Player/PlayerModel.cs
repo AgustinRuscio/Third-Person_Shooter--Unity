@@ -79,6 +79,8 @@ public class PlayerModel : MonoBehaviour
 
     private Rigidbody _myRigidBody;
 
+    public LayerMask shootableMasks;
+
     [SerializeField]
     private Transform _shootPoint;
 
@@ -268,20 +270,28 @@ public class PlayerModel : MonoBehaviour
                 _shootHolesTimer.RunTimer();
 
                 RaycastHit hit;
-                var Raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, _shootDistance);
+
+                var Raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, _shootDistance, shootableMasks);
 
                 if(Raycast)
                 {
-                    var Hitable = hit.collider.gameObject.GetComponent<IHitable>();
+                    var hitable = hit.collider.gameObject.GetComponent<IHitable>();
 
-                    if (Hitable != null)
+                    if (hitable != null)
                     {
                         if (_shootHolesTimer.CheckCoolDown())
                         {
-                            Hitable.OnHit(hit.point);
+                            hitable.OnHit(hit.point);
                             _shootHolesTimer.ResetTimer();
                         }
-                    }      
+                    }
+
+                    var explosive = hit.collider.gameObject.GetComponent<IExplosive>();
+
+                    if (explosive != null)
+                    {
+                        explosive.OnExplosion();
+                    }
                 }
 
 
