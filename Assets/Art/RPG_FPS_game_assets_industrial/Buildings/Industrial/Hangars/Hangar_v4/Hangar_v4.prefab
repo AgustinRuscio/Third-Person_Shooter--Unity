@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 33000012994191156}
   - component: {fileID: 23000010562118286}
   - component: {fileID: 65000012652471258}
+  - component: {fileID: 6708370734508539590}
   m_Layer: 0
   m_Name: Hangar_v4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4000013603223344
 Transform:
@@ -67,7 +68,7 @@ MeshRenderer:
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
+  m_ScaleInLightmap: 0.5
   m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
@@ -95,3 +96,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 11.670452, y: 12.882386, z: 22.616379}
   m_Center: {x: -0.0000019073486, y: 0, z: 0}
+--- !u!114 &6708370734508539590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012260637608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000010535933408, guid: a475880e7da0e9548aa05cb7933752cd, type: 3}

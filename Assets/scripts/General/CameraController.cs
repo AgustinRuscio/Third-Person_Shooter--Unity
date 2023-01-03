@@ -78,6 +78,8 @@ public class CameraController : MonoBehaviour
         StartAngle = new Vector2(newAngle * Mathf.Deg2Rad, 0);
     }
 
+
+
     void Update()
     {
         float horizontalCam = Input.GetAxis("Mouse X");

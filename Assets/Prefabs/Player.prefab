@@ -833,6 +833,7 @@ MonoBehaviour:
   _shootTime: 60
   _maxShootTime: 60
   _shootCoolDown: 5
+  _shootDistance: 10
   _timeOnCoolDown: 3
   _myAnimator: {fileID: 2026894848603707440}
   _myCollider: {fileID: 216038906041401561}

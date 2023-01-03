@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,6 +39,9 @@ public class PlayerModel : MonoBehaviour
     private float _shootCoolDown;
 
     [SerializeField]
+    private float _shootDistance;
+
+    [SerializeField]
     private float _timeOnCoolDown;
 
     private bool _aiming = false;
@@ -52,13 +56,15 @@ public class PlayerModel : MonoBehaviour
 
     private PlayerView _playerView;
 
-
+    private GenericTimer _shootHolesTimer;
 
     [SerializeField]
     private Animator _myAnimator;
 
     [SerializeField]
     private CapsuleCollider _myCollider;
+
+
 
     private Vector3 _colliderOriginalPos;
 
@@ -85,6 +91,8 @@ public class PlayerModel : MonoBehaviour
         _playerView = new PlayerView(_myAnimator, this);
 
         _myRigidBody = GetComponent<Rigidbody>();
+
+        _shootHolesTimer = new GenericTimer(0.1f);
 
         _colliderOriginalPos = _myCollider.center;
 
@@ -234,6 +242,7 @@ public class PlayerModel : MonoBehaviour
         CameraController.instance.SetAimCamera(_aiming);
 
         _shootBar.SetActive(_aiming);
+
     }
 
     public void Shoot(bool onShoot)
@@ -244,11 +253,31 @@ public class PlayerModel : MonoBehaviour
         {
             if (_shootTime > 0)
             {
-                Debug.Log("Sonido de disparo");
+                _shootHolesTimer.RunTimer();
+                Debug.Log("Shoot Sound");
 
                 RaycastHit hit;
-                var raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, 1000);
+                var Raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, _shootDistance);
 
+                if(Raycast)
+                {
+                    Debug.Log("I hit smth");
+                    var Hitable = hit.collider.gameObject.GetComponent<IHitable>();
+
+                    if (Hitable != null)
+                    {
+                        Debug.Log("Hit a hitable");
+
+                        if (_shootHolesTimer.CheckCoolDown(true))
+                        {
+                            Hitable.OnHit(hit.point);
+                            _shootHolesTimer.ResetTimer();
+                        }
+                    }
+
+                    
+                }
+                
                 _shootTime -= 35f * Time.deltaTime;
 
                 _playerView.SetShootAnim(true);
@@ -283,4 +312,12 @@ public class PlayerModel : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 dir = _shootPoint.forward * _shootDistance;
+
+        Gizmos.DrawRay(_shootPoint.position, dir);
+    }
 }

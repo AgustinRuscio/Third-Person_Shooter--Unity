@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 33000010101827930}
   - component: {fileID: 23000011606237502}
   - component: {fileID: 65000012729241662}
+  - component: {fileID: 7281156441269051422}
   m_Layer: 0
   m_Name: Cargo_container_v1_LD2close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4000012506713666
 Transform:
@@ -95,3 +96,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8, y: 3.0000007, z: 3.000002}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7281156441269051422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010817437606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000010131513902, guid: 7ca96822084510147adb2aea03d45e3b, type: 3}
