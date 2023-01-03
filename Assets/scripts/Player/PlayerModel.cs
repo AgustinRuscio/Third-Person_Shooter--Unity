@@ -9,11 +9,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel : Entity, IDamageable
 {
     [SerializeField]
     private float _speed;
-    private float realSpeed;
 
     [SerializeField]
     private float _forceJump;
@@ -82,6 +81,9 @@ public class PlayerModel : MonoBehaviour
     public LayerMask shootableMasks;
 
     [SerializeField]
+    private GameObject _laser;
+
+    [SerializeField]
     private Transform _shootPoint;
 
     [SerializeField]
@@ -96,8 +98,9 @@ public class PlayerModel : MonoBehaviour
     [SerializeField]
     private AudioSource _notAmmoSoundData;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _playerController = new PlayerController(this);
 
         _playerView = new PlayerView(_myAnimator, this);
@@ -114,6 +117,8 @@ public class PlayerModel : MonoBehaviour
         _stamina = _maxStamina;
 
         _maxShootTime = _shootTime;
+
+        Hud.instance.UpdateHealthBar(life, maxLife);
     }
 
     private void FixedUpdate()
@@ -126,7 +131,7 @@ public class PlayerModel : MonoBehaviour
         _playerController.ArtificialUpdate();
 
         Hud.instance.UpdateStaminaBar(_stamina, _maxStamina);
-        Hud.instance.UpdateShootBar(_shootTime, _maxShootTime);
+        Hud.instance.UpdateShootBar(_shootTime, _maxShootTime); 
 
         _shootSoundTimer.RunTimer();
         _playerView.SetCrouchAnim(_isCrouching);
@@ -257,6 +262,7 @@ public class PlayerModel : MonoBehaviour
 
         _shootBar.SetActive(_aiming);
 
+        _laser.SetActive(_aiming);
     }
 
     public void Shoot(bool onShoot)
@@ -317,8 +323,7 @@ public class PlayerModel : MonoBehaviour
                 {
                     _notAmmoSoundData.Play();
                     _shootSoundTimer.ResetTimer();
-                }
-                
+                }               
 
                 _shootParticles.SetActive(false);
             }
@@ -363,4 +368,31 @@ public class PlayerModel : MonoBehaviour
 
         Gizmos.DrawRay(_shootPoint.position, dir);
     }
+
+    #region Interfaces
+
+    public void TakeDamage(float damage)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TakeDamage(float damage, Vector3 dir)
+    {
+        life -= damage;
+        _myRigidBody.AddForce(dir, ForceMode.Impulse);
+
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
+
+        CheckLife();
+    }
+
+    protected override void CheckLife()
+    {
+        if(life <= 0)
+        {
+            Debug.Log("Death");
+        }
+    }
+
+    #endregion
 }

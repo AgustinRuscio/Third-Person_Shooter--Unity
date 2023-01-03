@@ -52610,8 +52610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb1682f3372921a4caf0971ee15af35b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 50
-  _isExplosive: 0
 --- !u!1 &4176561275285748789
 GameObject:
   m_ObjectHideFlags: 0
@@ -52660,10 +52658,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3079aa96a2c8c11488ae1bd254e0295b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _explosionForce: 10
+  _damage: 50
   _explosiveParticles: {fileID: 4272033337136222361}
   _barrelModel: {fileID: 4176435372711112613}
   _myCollider: {fileID: 4176561275285748788}
-  _damageLogic: {fileID: 4176561274061836968}
 --- !u!64 &4176561275285748788
 MeshCollider:
   m_ObjectHideFlags: 0

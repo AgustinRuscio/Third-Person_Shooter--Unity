@@ -22,12 +22,16 @@ public class Hud : MonoBehaviour
     private void Awake()
     {
         if(instance == null)
-            instance= this;
+            instance = this;
+
+        EventManager.Suscribe(ManagerKeys.LifeEvent, UpdateHealthBar);
     }
 
     public void UpdateStaminaBar(float stamina, float maxStamina) => _staminaBar.size = stamina / maxStamina;
 
-    public void UpdateHealthBar(float currentHealth, float maxHealth) => _healthBar.size = currentHealth / maxHealth;
+    public void UpdateHealthBar(params object[] parameter) => _healthBar.size = (float)parameter[0] / (float)parameter[1];
 
     public void UpdateShootBar(float shootTime, float maxShootTime) => _shootBar.size = shootTime / maxShootTime;
+
+    private void OnDestroy() => EventManager.UnSuscribe(ManagerKeys.LifeEvent, UpdateHealthBar);
 }
