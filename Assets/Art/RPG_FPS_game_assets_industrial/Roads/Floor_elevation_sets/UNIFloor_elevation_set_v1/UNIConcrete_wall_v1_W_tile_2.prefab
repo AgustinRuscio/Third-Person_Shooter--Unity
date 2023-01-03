@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33000012268796786}
   - component: {fileID: 23000010209008156}
   - component: {fileID: 64000010375427934}
+  - component: {fileID: -842027569152274546}
   m_Layer: 0
   m_Name: UNIConcrete_wall_v1_W_tile_2
   m_TagString: Untagged
@@ -96,3 +97,16 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300042, guid: c6d026d6367d43a438c71a59c9da8290, type: 3}
+--- !u!114 &-842027569152274546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011359162234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000010535933408, guid: a475880e7da0e9548aa05cb7933752cd, type: 3}

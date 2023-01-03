@@ -57,6 +57,7 @@ public class PlayerModel : MonoBehaviour
     private PlayerView _playerView;
 
     private GenericTimer _shootHolesTimer;
+    private GenericTimer _shootSoundTimer;
 
     [SerializeField]
     private Animator _myAnimator;
@@ -82,7 +83,16 @@ public class PlayerModel : MonoBehaviour
     private Transform _shootPoint;
 
     [SerializeField]
+    private GameObject _shootParticles;
+
+    [SerializeField]
     private GameObject _shootBar;
+
+    [SerializeField]
+    private AudioSource _shootSoundData;
+
+    [SerializeField]
+    private AudioSource _notAmmoSoundData;
 
     void Awake()
     {
@@ -93,6 +103,7 @@ public class PlayerModel : MonoBehaviour
         _myRigidBody = GetComponent<Rigidbody>();
 
         _shootHolesTimer = new GenericTimer(0.1f);
+        _shootSoundTimer = new GenericTimer(0.15f);
 
         _colliderOriginalPos = _myCollider.center;
 
@@ -115,7 +126,7 @@ public class PlayerModel : MonoBehaviour
         Hud.instance.UpdateStaminaBar(_stamina, _maxStamina);
         Hud.instance.UpdateShootBar(_shootTime, _maxShootTime);
 
-
+        _shootSoundTimer.RunTimer();
         _playerView.SetCrouchAnim(_isCrouching);
 
         if (!_onSprint)
@@ -124,6 +135,7 @@ public class PlayerModel : MonoBehaviour
 
             if(_stamina > _maxStamina)
                 _stamina = _maxStamina;
+
             CameraController.instance.SetSprintCamera(_onSprint);
         }
 
@@ -254,40 +266,61 @@ public class PlayerModel : MonoBehaviour
             if (_shootTime > 0)
             {
                 _shootHolesTimer.RunTimer();
-                Debug.Log("Shoot Sound");
 
                 RaycastHit hit;
                 var Raycast = Physics.Raycast(_shootPoint.position,_shootPoint.forward, out hit, _shootDistance);
 
                 if(Raycast)
                 {
-                    Debug.Log("I hit smth");
                     var Hitable = hit.collider.gameObject.GetComponent<IHitable>();
 
                     if (Hitable != null)
                     {
-                        Debug.Log("Hit a hitable");
-
-                        if (_shootHolesTimer.CheckCoolDown(true))
+                        if (_shootHolesTimer.CheckCoolDown())
                         {
                             Hitable.OnHit(hit.point);
                             _shootHolesTimer.ResetTimer();
                         }
-                    }
-
-                    
+                    }      
                 }
-                
+
+
+                if (_shootSoundTimer.CheckCoolDown())
+                {
+                    _shootSoundData.Play();
+                    _shootSoundTimer.ResetTimer();
+                }
+
                 _shootTime -= 35f * Time.deltaTime;
 
                 _playerView.SetShootAnim(true);
+                
+                _shootParticles.SetActive(true);
             }
             else
+            {
                 _playerView.SetShootAnim(false);
+
+                _shootSoundData.Stop();
+
+                if (_shootSoundTimer.CheckCoolDown())
+                {
+                    _notAmmoSoundData.Play();
+                    _shootSoundTimer.ResetTimer();
+                }
+                
+
+                _shootParticles.SetActive(false);
+            }
         }
         else
         {
             _playerView.SetShootAnim(false);
+            _shootSoundData.Stop();
+
+            _notAmmoSoundData.Stop();
+
+            _shootParticles.SetActive(false);
         }
 
         

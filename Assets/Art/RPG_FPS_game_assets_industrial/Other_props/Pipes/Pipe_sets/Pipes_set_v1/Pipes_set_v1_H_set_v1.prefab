@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 23000012782189962}
   - component: {fileID: 64000010741144892}
   - component: {fileID: 3963410616914936143}
+  - component: {fileID: 5288329368528465713}
   m_Layer: 0
   m_Name: Pipes_set_v1_H_set_v1
   m_TagString: Untagged
@@ -109,4 +110,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particles: {fileID: 198000010131513902, guid: 7ca96822084510147adb2aea03d45e3b, type: 3}
+  _particles: {fileID: 198000013440722320, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
+--- !u!114 &5288329368528465713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013757953436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 0}

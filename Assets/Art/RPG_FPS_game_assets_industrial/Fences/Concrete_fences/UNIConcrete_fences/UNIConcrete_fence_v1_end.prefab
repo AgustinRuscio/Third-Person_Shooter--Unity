@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33000011057328418}
   - component: {fileID: 23000014094639036}
   - component: {fileID: 65000010804722738}
+  - component: {fileID: 2440011812870549207}
   m_Layer: 0
   m_Name: UNIConcrete_fence_v1_end
   m_TagString: Untagged
@@ -95,3 +96,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.50379944, y: 2.4834805, z: 0.23467255}
   m_Center: {x: -0.0000019073486, y: 0, z: -0.0000019073486}
+--- !u!114 &2440011812870549207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010154774544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000010535933408, guid: a475880e7da0e9548aa05cb7933752cd, type: 3}

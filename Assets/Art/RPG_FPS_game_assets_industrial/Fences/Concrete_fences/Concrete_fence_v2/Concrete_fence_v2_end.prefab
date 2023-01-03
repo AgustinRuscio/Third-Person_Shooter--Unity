@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33000012553087480}
   - component: {fileID: 23000011175433098}
   - component: {fileID: 65000010144238270}
+  - component: {fileID: -6195724144220182236}
   m_Layer: 0
   m_Name: Concrete_fence_v2_end
   m_TagString: Untagged
@@ -95,3 +96,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5380509, y: 1.0155952, z: 0.4971013}
   m_Center: {x: 0.00000011920929, y: 0.00000035762787, z: 0.00000023841858}
+--- !u!114 &-6195724144220182236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012764838618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000010535933408, guid: a475880e7da0e9548aa05cb7933752cd, type: 3}

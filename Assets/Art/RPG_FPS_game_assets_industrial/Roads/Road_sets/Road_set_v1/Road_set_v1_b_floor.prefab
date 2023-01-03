@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33000012236176862}
   - component: {fileID: 23000012359212666}
   - component: {fileID: 64000011112988470}
+  - component: {fileID: 1108771160474876348}
   m_Layer: 0
   m_Name: Road_set_v1_b_floor
   m_TagString: Untagged
@@ -96,3 +97,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300084, guid: c7f7a9ec09a97d144963b6dd16448dc3, type: 3}
+--- !u!114 &1108771160474876348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010076631458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000010535933408, guid: a475880e7da0e9548aa05cb7933752cd, type: 3}

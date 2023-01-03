@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33000010866036778}
   - component: {fileID: 23000011783370544}
   - component: {fileID: 64000011447985592}
+  - component: {fileID: -3792153954368621489}
   m_Layer: 0
   m_Name: Pipes_set_v1_tile_s2
   m_TagString: Untagged
@@ -96,3 +97,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300030, guid: 993e7ae5872aa394c80c399e077992bf, type: 3}
+--- !u!114 &-3792153954368621489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013704295854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000013440722320, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}

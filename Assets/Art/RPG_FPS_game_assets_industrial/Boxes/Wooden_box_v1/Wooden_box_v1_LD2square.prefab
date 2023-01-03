@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33000011330391542}
   - component: {fileID: 23000010366439892}
   - component: {fileID: 65000013885214866}
+  - component: {fileID: 6612097190705343874}
   m_Layer: 0
   m_Name: Wooden_box_v1_LD2square
   m_TagString: Untagged
@@ -95,3 +96,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.8103733, y: 0.81238276, z: 0.8102383}
   m_Center: {x: 0, y: 0, z: -0.000000029802322}
+--- !u!114 &6612097190705343874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010619805496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000011002288308, guid: beb3acff7ab73944fb8f470f24d74ed3, type: 3}

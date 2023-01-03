@@ -9,9 +9,6 @@ public class HitableWalls : MonoBehaviour, IHitable
 
     public void OnHit(Vector3 hit)
     {
-        Debug.Log("Estoy en Onhit");
-        //_particles.gameObject.transform.position = hit;
-
         Instantiate(_particles.gameObject, hit, Quaternion.Euler(hit));
         _particles.Play();
     }

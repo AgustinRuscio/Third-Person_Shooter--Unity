@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4000011394009582}
   - component: {fileID: 33000010444884772}
   - component: {fileID: 23000011610948646}
+  - component: {fileID: 8220209231190852573}
   m_Layer: 0
   m_Name: Hangar_v2_6
   m_TagString: Untagged
@@ -86,6 +87,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8220209231190852573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010249220760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000013440722320, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
 --- !u!1 &1000010869344934
 GameObject:
   m_ObjectHideFlags: 0

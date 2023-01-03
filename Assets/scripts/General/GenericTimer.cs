@@ -20,22 +20,12 @@ public class GenericTimer
     
     public void RunTimer() => timer = timer + 1 * Time.deltaTime;
 
-    public bool CheckCoolDown(bool acendingTimer)
+    public bool CheckCoolDown()
     {
-        if (acendingTimer)
-        {
-            if(timer > coolDown)   
-               return true;   
-            else 
-               return false;
-        }
-        else
-        {
-            if (timer < coolDown)
-                return true;
-            else
-                return false;
-        }
+        if(timer > coolDown)
+            return true;   
+        else 
+            return false;
     }
 
     public void ResetTimer() => timer = 0;
