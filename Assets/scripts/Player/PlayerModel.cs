@@ -43,6 +43,9 @@ public class PlayerModel : Entity, IDamageable
     [SerializeField]
     private float _timeOnCoolDown;
 
+    [SerializeField]
+    private float _granadeRange;
+
     private bool _aiming = false;
     private bool _shooting = false;
     private bool _falling;
@@ -98,6 +101,12 @@ public class PlayerModel : Entity, IDamageable
     [SerializeField]
     private AudioSource _notAmmoSoundData;
 
+    [SerializeField]
+    private Transform _lauchGranadePoint;
+
+    [SerializeField]
+    private GameObject _granade;
+
     protected override void Awake()
     {
         base.Awake();
@@ -124,6 +133,11 @@ public class PlayerModel : Entity, IDamageable
     private void FixedUpdate()
     {
         _playerController.ArtificialFixedUpdate();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            GrandeLaunch();
+        }
     }
 
     void Update()
@@ -336,9 +350,13 @@ public class PlayerModel : Entity, IDamageable
             _notAmmoSoundData.Stop();
 
             _shootParticles.SetActive(false);
-        }
+        }   
+    }
 
-        
+    private void GrandeLaunch()
+    {
+        GameObject granadeInstance = Instantiate(_granade, _lauchGranadePoint.position, _lauchGranadePoint.rotation);
+        granadeInstance.GetComponent<Rigidbody>().AddForce(_lauchGranadePoint.forward * _granadeRange, ForceMode.Impulse);
     }
 
     public void Crouch(bool crouched)
