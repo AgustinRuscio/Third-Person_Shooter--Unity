@@ -73,11 +73,7 @@ public class CameraController : MonoBehaviour
             sensitivity = 1;
     }
 
-    public void SetAngle(int newAngle)
-    {
-        StartAngle = new Vector2(newAngle * Mathf.Deg2Rad, 0);
-    }
-
+    public void SetAngle(int newAngle) => StartAngle = new Vector2(newAngle * Mathf.Deg2Rad, 0);  
 
 
     void Update()
@@ -174,4 +170,5 @@ public class CameraController : MonoBehaviour
     public void SetSprintCamera(bool isSprinting) => _sprint = isSprinting;
 
     public void SetCrouchCamera(bool isCrouching) => _crouch = isCrouching;
+
 }

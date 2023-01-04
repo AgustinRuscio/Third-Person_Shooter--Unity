@@ -5,6 +5,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,13 +53,19 @@ public class PlayerModel : Entity, IDamageable
     [SerializeField]
     private int _maxGranadeAvalible;
 
+    private float _startofFall;
+
+    [SerializeField]
+    private float _minFallDistance;
+
     private bool _aiming = false;
     private bool _shooting = false;
     private bool _falling;
     private bool _onSprint = false;
     private bool _isCrouching;
     private bool _lauchGranade;
-
+    private bool _wasGrounded;
+    private bool _wasFalling;
 
     private PlayerController _playerController;
 
@@ -139,6 +146,24 @@ public class PlayerModel : Entity, IDamageable
     private void FixedUpdate()
     {
         _playerController.ArtificialFixedUpdate();
+
+        bool g = inFloor;
+
+        if (!_wasFalling && _falling)
+        {
+            _startofFall = transform.position.y;
+            UnityEngine.Debug.Log("Step one " + _startofFall);
+        }
+
+        if (!_wasGrounded && g)
+        {
+            UnityEngine.Debug.Log("Saaaa ");
+            FallDamage(_startofFall, 25);
+        }
+
+
+        _wasGrounded = g;
+        _wasFalling = _falling;
     }
 
     void Update()
@@ -374,6 +399,7 @@ public class PlayerModel : Entity, IDamageable
 
     public void LaunchGranade()
     {
+        
         if (_aiming)
         {
             _playerView.Granade();
@@ -388,17 +414,16 @@ public class PlayerModel : Entity, IDamageable
         granadeInstance.GetComponent<Rigidbody>().AddForce(_lauchGranadePoint.forward * _granadeRange, ForceMode.Impulse);
     }
 
-    public void a()
-    {
-        _lauchGranade = false;
-    }
-
+    public void SetLauchGranadeFalse() => _lauchGranade = false;
+    
     #endregion
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Vector3 dir = _shootPoint.forward * _shootDistance;
+
+        
 
         Gizmos.DrawRay(_shootPoint.position, dir);
     }
@@ -410,6 +435,7 @@ public class PlayerModel : Entity, IDamageable
         life -= damage;
 
         EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
+        CheckLife();
     }
 
     public void TakeDamage(float damage, Vector3 dir)
@@ -422,13 +448,34 @@ public class PlayerModel : Entity, IDamageable
         CheckLife();
     }
 
+    public void FallDamage(float distanceFall, float damage)
+    {
+        float fallDistance = distanceFall - transform.position.y;
+
+        if(fallDistance > _minFallDistance)
+        {
+            life -= damage;
+            EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
+
+            CheckLife();
+        }
+        else
+        {
+            UnityEngine.Debug.Log("not enought");
+        }
+
+        
+    }
+
     protected override void CheckLife()
     {
         if(life <= 0)
         {
-            Debug.Log("Death");
+            UnityEngine.Debug.Log("Death");
         }
     }
+
+    
 
     #endregion
 }

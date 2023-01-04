@@ -12,4 +12,6 @@ public interface IDamageable
     public void TakeDamage(float damage);
 
     public void TakeDamage(float damage, Vector3 dir);
+
+    public void FallDamage(float distanceFall, float damage);
 }

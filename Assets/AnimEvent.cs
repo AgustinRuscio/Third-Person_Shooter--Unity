@@ -16,8 +16,8 @@ public class AnimEvent : MonoBehaviour
 
     IEnumerator BackToMovement()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
-        _player.a();
+        _player.SetLauchGranadeFalse();
     }
 }
