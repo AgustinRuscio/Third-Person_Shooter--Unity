@@ -48,24 +48,29 @@ public class PlayerView
 
     public void SetAimAnim(bool _isAiming) => _animator.SetBool("Aim", _isAiming);
 
-    public void SetShootAnim(bool shooting)
-    {
-        _animator.SetBool("Shoot", shooting);
-    }
+    public void SetShootAnim(bool shooting) => _animator.SetBool("Shoot", shooting);
+    public void Falling(bool falling) => _animator.SetBool("Falling", falling);
 
     public void Jump()
     {
         string parameter = "Jump";
         _animator.SetBool(parameter, true);
 
-        _mono.StartCoroutine(ChangeBoolParameter(parameter));
+        _mono.StartCoroutine(ChangeBoolParameter(parameter, 0.6f));
+    }
+    public void Granade()
+    {
+        string parameter = "Granade";
+        _animator.SetBool(parameter, true);
+ 
+         _mono.StartCoroutine(ChangeBoolParameter(parameter, 2.5f));
     }
 
-    public void Falling(bool falling) => _animator.SetBool("Falling", falling);
-
-    IEnumerator ChangeBoolParameter(string parameterModificated)
+    IEnumerator ChangeBoolParameter(string parameterModificated, float duration)
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(duration);
         _animator.SetBool(parameterModificated, false);
+
+
     }
 }

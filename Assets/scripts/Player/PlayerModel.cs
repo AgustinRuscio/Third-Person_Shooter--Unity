@@ -57,8 +57,8 @@ public class PlayerModel : Entity, IDamageable
     private bool _falling;
     private bool _onSprint = false;
     private bool _isCrouching;
+    private bool _lauchGranade;
 
-    
 
     private PlayerController _playerController;
 
@@ -217,7 +217,7 @@ public class PlayerModel : Entity, IDamageable
             realSpeed = _speed;
         }
 
-        if(_aiming == true)
+        if(_aiming == true || _lauchGranade == true)
         {
             realSpeed = 0;
         }
@@ -249,6 +249,24 @@ public class PlayerModel : Entity, IDamageable
             _myRigidBody.AddForce(Vector3.up * realJumpForce, ForceMode.Impulse);
             _stamina -= _staminaReduceForJump;
             _playerView.Jump();
+        }
+    }
+
+    public void Crouch(bool crouched)
+    {
+        _isCrouching = crouched;
+
+        CameraController.instance.SetCrouchCamera(_isCrouching);
+
+        if (_isCrouching)
+        {
+            _myCollider.center = _colliderCrouchPos;
+            _myCollider.height = _crouchColliderlHeight;
+        }
+        else
+        {
+            _myCollider.center = _colliderOriginalPos;
+            _myCollider.height = _originalColliderlHeight;
         }
     }
 
@@ -356,26 +374,23 @@ public class PlayerModel : Entity, IDamageable
 
     public void LaunchGranade()
     {
+        if (_aiming)
+        {
+            _playerView.Granade();
+            _lauchGranade = true;
+        }
+    }
+
+    //The anim Event will execute the method
+    public void ThoughGranade()
+    {
         GameObject granadeInstance = Instantiate(_granade, _lauchGranadePoint.position, _lauchGranadePoint.rotation);
         granadeInstance.GetComponent<Rigidbody>().AddForce(_lauchGranadePoint.forward * _granadeRange, ForceMode.Impulse);
     }
 
-    public void Crouch(bool crouched)
+    public void a()
     {
-        _isCrouching = crouched;
-
-        CameraController.instance.SetCrouchCamera(_isCrouching);
-
-        if (_isCrouching)
-        {
-            _myCollider.center = _colliderCrouchPos;
-            _myCollider.height = _crouchColliderlHeight;
-        }
-        else
-        {
-            _myCollider.center = _colliderOriginalPos;
-            _myCollider.height = _originalColliderlHeight;
-        }
+        _lauchGranade = false;
     }
 
     #endregion
