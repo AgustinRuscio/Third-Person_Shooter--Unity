@@ -46,6 +46,12 @@ public class PlayerModel : Entity, IDamageable
     [SerializeField]
     private float _granadeRange;
 
+    [SerializeField]
+    private int _granadeAvalible;
+
+    [SerializeField]
+    private int _maxGranadeAvalible;
+
     private bool _aiming = false;
     private bool _shooting = false;
     private bool _falling;
@@ -133,11 +139,6 @@ public class PlayerModel : Entity, IDamageable
     private void FixedUpdate()
     {
         _playerController.ArtificialFixedUpdate();
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GrandeLaunch();
-        }
     }
 
     void Update()
@@ -353,7 +354,7 @@ public class PlayerModel : Entity, IDamageable
         }   
     }
 
-    private void GrandeLaunch()
+    public void LaunchGranade()
     {
         GameObject granadeInstance = Instantiate(_granade, _lauchGranadePoint.position, _lauchGranadePoint.rotation);
         granadeInstance.GetComponent<Rigidbody>().AddForce(_lauchGranadePoint.forward * _granadeRange, ForceMode.Impulse);
@@ -391,7 +392,9 @@ public class PlayerModel : Entity, IDamageable
 
     public void TakeDamage(float damage)
     {
-        throw new System.NotImplementedException();
+        life -= damage;
+
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
     }
 
     public void TakeDamage(float damage, Vector3 dir)

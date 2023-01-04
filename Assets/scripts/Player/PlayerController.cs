@@ -34,6 +34,7 @@ public class PlayerController
         ArtificialUpdateLogics = CheckJump;
         ArtificialUpdateLogics += CheckShoot;
         ArtificialUpdateLogics += CheckCrouch;
+        ArtificialUpdateLogics += CheckGranade; 
     }
 
     public void ArtificialUpdate() => ArtificialUpdateLogics();
@@ -63,6 +64,12 @@ public class PlayerController
     {
         if (Input.GetButtonDown("Jump"))
             _player.Jump();
+    }
+
+    private void CheckGranade()
+    {
+        if (Input.GetButtonDown("Granade"))
+            _player.LaunchGranade();
     }
 
     private void CheckAim() => _player.Aim(Input.GetButton("Aim"));
