@@ -50,8 +50,7 @@ public class PlayerModel : Entity, IDamageable
     [SerializeField]
     private int _granadeAvalible;
 
-    [SerializeField]
-    private int _maxGranadeAvalible;
+    private int _maxGranadeAvalible = 3;
 
     private float _startofFall;
 
@@ -109,6 +108,9 @@ public class PlayerModel : Entity, IDamageable
     private GameObject _shootBar;
 
     [SerializeField]
+    private GameObject _granadeicons;
+
+    [SerializeField]
     private AudioSource _shootSoundData;
 
     [SerializeField]
@@ -119,6 +121,9 @@ public class PlayerModel : Entity, IDamageable
 
     [SerializeField]
     private GameObject _granade;
+
+    [SerializeField]
+    private SoundData _soundThrowGranade;
 
     protected override void Awake()
     {
@@ -141,29 +146,29 @@ public class PlayerModel : Entity, IDamageable
         _maxShootTime = _shootTime;
 
         Hud.instance.UpdateHealthBar(life, maxLife);
+
+        Hud.instance.UpdateGranadeImages(_granadeAvalible);
     }
 
     private void FixedUpdate()
     {
         _playerController.ArtificialFixedUpdate();
 
+        #region fallDamage
         bool g = inFloor;
 
         if (!_wasFalling && _falling)
-        {
             _startofFall = transform.position.y;
-            UnityEngine.Debug.Log("Step one " + _startofFall);
-        }
+        
 
-        if (!_wasGrounded && g)
-        {
-            UnityEngine.Debug.Log("Saaaa ");
+        if (!_wasGrounded && g)   
             FallDamage(_startofFall, 25);
-        }
-
+        
 
         _wasGrounded = g;
         _wasFalling = _falling;
+        #endregion
+  
     }
 
     void Update()
@@ -200,6 +205,16 @@ public class PlayerModel : Entity, IDamageable
             _falling = false;
 
         _playerView.Falling(_falling);
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            _granadeAvalible++;
+
+            if (_granadeAvalible > _maxGranadeAvalible)
+                _granadeAvalible = _maxGranadeAvalible;
+
+            EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
+        }
     }
 
     #region MOVEMENT
@@ -319,6 +334,7 @@ public class PlayerModel : Entity, IDamageable
         CameraController.instance.SetAimCamera(_aiming);
 
         _shootBar.SetActive(_aiming);
+        _granadeicons.SetActive(_aiming);
 
         _laser.SetActive(_aiming);
     }
@@ -327,7 +343,7 @@ public class PlayerModel : Entity, IDamageable
     {
         _shooting = onShoot;
 
-        if (_aiming && _shooting)
+        if (_aiming && _shooting && inFloor)
         {
             if (_shootTime > 0)
             {
@@ -399,11 +415,11 @@ public class PlayerModel : Entity, IDamageable
 
     public void LaunchGranade()
     {
-        
-        if (_aiming)
+        if (_aiming && _granadeAvalible > 0)
         {
             _playerView.Granade();
             _lauchGranade = true;
+            AudioManager.instance.AudioPlay(_soundThrowGranade, transform.position);
         }
     }
 
@@ -412,6 +428,9 @@ public class PlayerModel : Entity, IDamageable
     {
         GameObject granadeInstance = Instantiate(_granade, _lauchGranadePoint.position, _lauchGranadePoint.rotation);
         granadeInstance.GetComponent<Rigidbody>().AddForce(_lauchGranadePoint.forward * _granadeRange, ForceMode.Impulse);
+        _granadeAvalible--;
+
+        EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
     }
 
     public void SetLauchGranadeFalse() => _lauchGranade = false;

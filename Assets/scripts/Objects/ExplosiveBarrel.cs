@@ -26,12 +26,16 @@ public class ExplosiveBarrel : MonoBehaviour, IExplosive
     [SerializeField]
     private Collider _myCollider;
 
+    [SerializeField]
+    private SoundData _soundFx;
+
     public void OnExplosion()
     {
         _myCollider.enabled = false;
         _barrelModel.SetActive(false);
 
         _explosiveParticles.Play();
+        AudioManager.instance.AudioPlay(_soundFx, transform.position);
 
         _isExploting = true;
 
@@ -41,7 +45,7 @@ public class ExplosiveBarrel : MonoBehaviour, IExplosive
 
     IEnumerator EndExplosion()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(_explosiveParticles.main.duration);
 
         _isExploting = false;
 

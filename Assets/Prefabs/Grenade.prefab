@@ -129,3 +129,9 @@ MonoBehaviour:
   delay: 3
   _explosionForce: 10
   _radius: 20
+  _sound:
+    clip: {fileID: 8300000, guid: 238a7c64dc694254cb60e04b26b43b60, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 1
+    maxDistance: 20

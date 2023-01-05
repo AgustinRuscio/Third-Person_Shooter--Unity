@@ -102,7 +102,7 @@ MonoBehaviour:
   currentFollow: {fileID: 0}
   defaultMaxDistance: 1.5
   currentDistance: 0
-  aimDistance: 0.25
+  aimDistance: 0.35
   crouchDistance: 0.57
   sprintDistance: 0.6
   player: {fileID: 0}

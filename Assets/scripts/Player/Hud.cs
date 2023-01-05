@@ -19,12 +19,16 @@ public class Hud : MonoBehaviour
     [SerializeField]
     private Scrollbar _shootBar;
 
+    [SerializeField]
+    private GameObject[] _granadeImages = new GameObject[3];
+
     private void Awake()
     {
         if(instance == null)
             instance = this;
 
         EventManager.Suscribe(ManagerKeys.LifeEvent, UpdateHealthBar);
+        EventManager.Suscribe(ManagerKeys.GranadeNumber, UpdateGranadeImages);
     }
 
     public void UpdateStaminaBar(float stamina, float maxStamina) => _staminaBar.size = stamina / maxStamina;
@@ -33,5 +37,43 @@ public class Hud : MonoBehaviour
 
     public void UpdateShootBar(float shootTime, float maxShootTime) => _shootBar.size = shootTime / maxShootTime;
 
-    private void OnDestroy() => EventManager.UnSuscribe(ManagerKeys.LifeEvent, UpdateHealthBar);
+    public void UpdateGranadeImages(params object[] granadeAmount)
+    {
+        int amountCasted = (int)granadeAmount[0];
+
+        if(amountCasted == 3)
+        {
+            for (int i = 0; i < _granadeImages.Length; i++)
+            {
+                _granadeImages[i].SetActive(true);
+            }
+        }
+        else if(amountCasted == 2)
+        {
+            _granadeImages[0].SetActive(true);
+            _granadeImages[1].SetActive(true);
+
+            _granadeImages[2].SetActive(false);
+        }
+        else if(amountCasted == 1)
+        {
+            _granadeImages[0].SetActive(true);
+
+            _granadeImages[1].SetActive(false);
+            _granadeImages[2].SetActive(false);
+        }
+        else
+        {
+            for (int i = 0; i < _granadeImages.Length; i++)
+            {
+                _granadeImages[i].SetActive(false);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.UnSuscribe(ManagerKeys.LifeEvent, UpdateHealthBar);
+        EventManager.UnSuscribe(ManagerKeys.GranadeNumber, UpdateGranadeImages);
+    }
 }

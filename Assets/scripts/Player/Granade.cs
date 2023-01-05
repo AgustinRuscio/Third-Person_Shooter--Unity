@@ -21,6 +21,9 @@ public class Granade : MonoBehaviour
     [SerializeField]
     private float _radius = 20f;
 
+    [SerializeField]
+    private SoundData _sound;
+
     void Start() => Invoke("Explode", delay);
     
 
@@ -37,6 +40,8 @@ public class Granade : MonoBehaviour
         }
 
         Instantiate(_explosionParticles, transform.position, transform.rotation);
+        AudioManager.instance.AudioPlay(_sound, transform.position);
+
         Destroy(gameObject);
     }
 }
