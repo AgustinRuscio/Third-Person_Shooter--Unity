@@ -1364,6 +1364,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 6166693233848257938}
+  _landSound:
+    clip: {fileID: 8300000, guid: da710f25f7d2a484f9354693dad3c1ad, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
+  _stepOne:
+    clip: {fileID: 8300000, guid: 7b5c8db7980efc7419b3281c4bf7cbdb, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
+  _stepTwo:
+    clip: {fileID: 8300000, guid: 7b3dffdf632bfe444960bebf720ac1b0, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
+  _breathOne:
+    clip: {fileID: 8300000, guid: 14bb6d945d27ae14da9216a1d58af6d8, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
+  _breathTwo:
+    clip: {fileID: 8300000, guid: cce0a692877da7d4f94ace6e4f6fc66e, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
 --- !u!1 &1242417482880658028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,13 +1836,24 @@ MonoBehaviour:
   _shootPoint: {fileID: 2469224362363395652}
   _shootParticles: {fileID: 1743300351608778}
   _shootBar: {fileID: 895650621484966861}
-  _granadeicons: {fileID: 9081898058259125664}
   _shootSoundData: {fileID: 2076134439}
   _notAmmoSoundData: {fileID: 1489417861}
   _lauchGranadePoint: {fileID: 674737851}
   _granade: {fileID: 2929684937830590926, guid: de929bd96d5aab0418e9426ba31fed89, type: 3}
   _soundThrowGranade:
     clip: {fileID: 8300000, guid: 0f4aeec91584bca468d5ca5dbcf6429a, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
+  _jumpSound:
+    clip: {fileID: 8300000, guid: ec7d4b34ca8b2c84d9e9dde5e8a8b89e, type: 3}
+    miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0
+  _exhaust:
+    clip: {fileID: 8300000, guid: a3e1628fdb3331047ad350262f2968fd, type: 3}
     miixerGroup: {fileID: -7979362569255107298, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
     loop: 0
     sound3D: 0

@@ -66,6 +66,7 @@ public class PlayerModel : Entity, IDamageable
     private bool _wasGrounded;
     private bool _wasFalling;
 
+
     private PlayerController _playerController;
 
     private PlayerView _playerView;
@@ -78,8 +79,6 @@ public class PlayerModel : Entity, IDamageable
 
     [SerializeField]
     private CapsuleCollider _myCollider;
-
-
 
     private Vector3 _colliderOriginalPos;
 
@@ -108,9 +107,6 @@ public class PlayerModel : Entity, IDamageable
     private GameObject _shootBar;
 
     [SerializeField]
-    private GameObject _granadeicons;
-
-    [SerializeField]
     private AudioSource _shootSoundData;
 
     [SerializeField]
@@ -124,6 +120,12 @@ public class PlayerModel : Entity, IDamageable
 
     [SerializeField]
     private SoundData _soundThrowGranade;
+
+    [SerializeField]
+    private SoundData _jumpSound;
+
+    [SerializeField]
+    private SoundData _exhaust;
 
     protected override void Awake()
     {
@@ -148,6 +150,8 @@ public class PlayerModel : Entity, IDamageable
         Hud.instance.UpdateHealthBar(life, maxLife);
 
         Hud.instance.UpdateGranadeImages(_granadeAvalible);
+
+        EventManager.Suscribe(ManagerKeys.GranadeAdded, AddGranade);
     }
 
     private void FixedUpdate()
@@ -205,16 +209,14 @@ public class PlayerModel : Entity, IDamageable
             _falling = false;
 
         _playerView.Falling(_falling);
+    }
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            _granadeAvalible++;
+    private void OnTriggerEnter(Collider other)
+    {
+        var item = other.gameObject.GetComponent<IItem>();
 
-            if (_granadeAvalible > _maxGranadeAvalible)
-                _granadeAvalible = _maxGranadeAvalible;
-
-            EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
-        }
+        if (item != null)
+            item.OnGrab(_granadeAvalible < _maxGranadeAvalible);
     }
 
     #region MOVEMENT
@@ -242,7 +244,7 @@ public class PlayerModel : Entity, IDamageable
 
             _stamina -= 45f * Time.deltaTime;
             CameraController.instance.SetSprintCamera(_onSprint);
-
+    
             if (_stamina <= 0)
             {
                 _stamina = 0;
@@ -255,6 +257,11 @@ public class PlayerModel : Entity, IDamageable
         else
         {
             realSpeed = _speed;
+        }
+
+        if(_stamina < 25)
+        {
+            AudioManager.instance.AudioPlay(_exhaust, transform.position);
         }
 
         if(_aiming == true || _lauchGranade == true)
@@ -289,6 +296,7 @@ public class PlayerModel : Entity, IDamageable
             _myRigidBody.AddForce(Vector3.up * realJumpForce, ForceMode.Impulse);
             _stamina -= _staminaReduceForJump;
             _playerView.Jump();
+            AudioManager.instance.AudioPlay(_jumpSound, transform.position);
         }
     }
 
@@ -334,7 +342,6 @@ public class PlayerModel : Entity, IDamageable
         CameraController.instance.SetAimCamera(_aiming);
 
         _shootBar.SetActive(_aiming);
-        _granadeicons.SetActive(_aiming);
 
         _laser.SetActive(_aiming);
     }
@@ -493,8 +500,16 @@ public class PlayerModel : Entity, IDamageable
             UnityEngine.Debug.Log("Death");
         }
     }
-
-    
-
     #endregion
+
+    private void AddGranade(params object[] granadeAdded)
+    {
+        _granadeAvalible += (int)granadeAdded[0];
+
+        if (_granadeAvalible > _maxGranadeAvalible)
+            _granadeAvalible = _maxGranadeAvalible;
+
+        EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
+    }
+
 }

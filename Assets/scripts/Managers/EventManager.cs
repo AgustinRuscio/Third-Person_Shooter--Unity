@@ -10,6 +10,7 @@ public enum ManagerKeys
     LifeEvent,
     ExplosionEvent,
     GranadeNumber,
+    GranadeAdded,
 }
 
 public static class EventManager
