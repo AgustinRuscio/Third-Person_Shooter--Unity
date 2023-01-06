@@ -3,6 +3,7 @@
 //------------------------------------//
 
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,9 @@ public class Hud : MonoBehaviour
 
     [SerializeField]
     private Scrollbar _healthBar;
+
+    [SerializeField]
+    private Image _deadlyPanel;
 
     [SerializeField]
     private Scrollbar _shootBar;
@@ -33,7 +37,20 @@ public class Hud : MonoBehaviour
 
     public void UpdateStaminaBar(float stamina, float maxStamina) => _staminaBar.size = stamina / maxStamina;
 
-    public void UpdateHealthBar(params object[] parameter) => _healthBar.size = (float)parameter[0] / (float)parameter[1];
+    public void UpdateHealthBar(params object[] parameter)
+    {
+        _healthBar.size = (float)parameter[0] / (float)parameter[1];
+
+        if ((bool)parameter[2])
+        {
+            _deadlyPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            _deadlyPanel.gameObject.SetActive(false);
+        }
+
+    }
 
     public void UpdateShootBar(float shootTime, float maxShootTime) => _shootBar.size = shootTime / maxShootTime;
 

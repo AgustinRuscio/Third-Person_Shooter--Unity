@@ -65,7 +65,7 @@ public class PlayerModel : Entity, IDamageable
     private bool _lauchGranade;
     private bool _wasGrounded;
     private bool _wasFalling;
-
+    private bool _isDeadly;
 
     private PlayerController _playerController;
 
@@ -125,7 +125,13 @@ public class PlayerModel : Entity, IDamageable
     private SoundData _jumpSound;
 
     [SerializeField]
-    private SoundData _exhaust;
+    private SoundData _exhaustSound;
+
+    [SerializeField]
+    private SoundData _hurtSound;
+
+    [SerializeField]
+    private GameObject _heartBeatSound;
 
     protected override void Awake()
     {
@@ -147,11 +153,12 @@ public class PlayerModel : Entity, IDamageable
 
         _maxShootTime = _shootTime;
 
-        Hud.instance.UpdateHealthBar(life, maxLife);
+        Hud.instance.UpdateHealthBar(life, maxLife, _isDeadly);
 
         Hud.instance.UpdateGranadeImages(_granadeAvalible);
 
         EventManager.Suscribe(ManagerKeys.GranadeAdded, AddGranade);
+        EventManager.Suscribe(ManagerKeys.LifeAdded, AddLife);
     }
 
     private void FixedUpdate()
@@ -216,7 +223,7 @@ public class PlayerModel : Entity, IDamageable
         var item = other.gameObject.GetComponent<IItem>();
 
         if (item != null)
-            item.OnGrab(_granadeAvalible < _maxGranadeAvalible);
+            item.OnGrab();
     }
 
     #region MOVEMENT
@@ -261,7 +268,7 @@ public class PlayerModel : Entity, IDamageable
 
         if(_stamina < 25)
         {
-            AudioManager.instance.AudioPlay(_exhaust, transform.position);
+            AudioManager.instance.AudioPlay(_exhaustSound, transform.position);
         }
 
         if(_aiming == true || _lauchGranade == true)
@@ -460,7 +467,9 @@ public class PlayerModel : Entity, IDamageable
     {
         life -= damage;
 
-        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+        AudioManager.instance.AudioPlay(_hurtSound, transform.position);
+
         CheckLife();
     }
 
@@ -469,7 +478,8 @@ public class PlayerModel : Entity, IDamageable
         life -= damage;
         _myRigidBody.AddForce(dir, ForceMode.Impulse);
 
-        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+        AudioManager.instance.AudioPlay(_hurtSound, transform.position);
 
         CheckLife();
     }
@@ -481,7 +491,9 @@ public class PlayerModel : Entity, IDamageable
         if(fallDistance > _minFallDistance)
         {
             life -= damage;
-            EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife);
+
+            EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+            AudioManager.instance.AudioPlay(_hurtSound, transform.position);
 
             CheckLife();
         }
@@ -499,8 +511,29 @@ public class PlayerModel : Entity, IDamageable
         {
             UnityEngine.Debug.Log("Death");
         }
+
+        if(life < (maxLife * 0.25))
+        {
+            DeadlyStatus();
+        }
     }
     #endregion
+
+    private void DeadlyStatus()
+    {
+        _heartBeatSound.SetActive(true);
+        realSpeed = (_speed * 0.5f);
+        _isDeadly = true;
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+    }
+
+    private void NormalStatus()
+    {
+        realSpeed = _speed;
+        _heartBeatSound.SetActive(false);
+        _isDeadly = false;
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+    }
 
     private void AddGranade(params object[] granadeAdded)
     {
@@ -510,6 +543,21 @@ public class PlayerModel : Entity, IDamageable
             _granadeAvalible = _maxGranadeAvalible;
 
         EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
+    }
+
+    private void AddLife(params object[] lifeAdded)
+    {
+        life += (float)lifeAdded[0];
+
+        if (life > (maxLife * 0.25))
+        {
+            NormalStatus();
+        }
+
+        if (life > maxLife)
+            life = maxLife;
+
+        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
     }
 
 }

@@ -10,15 +10,12 @@ public class CollectibleGranade : MonoBehaviour, IItem
     [SerializeField]
     private SoundData _sound;
 
-    public void OnGrab(bool canGrab)
+    public void OnGrab()
     {
-        if (canGrab)
-        {
-            EventManager.Trigger(ManagerKeys.GranadeAdded, _granadeAdded);
-
-            AudioManager.instance.AudioPlay(_sound, transform.position);
-
-            Destroy(gameObject);
-        }
+        EventManager.Trigger(ManagerKeys.GranadeAdded, _granadeAdded);
+        
+        AudioManager.instance.AudioPlay(_sound, transform.position);
+        
+        Destroy(gameObject);
     }
 }
