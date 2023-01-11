@@ -356,10 +356,8 @@ public class PlayerModel : Entity, IDamageable
 
             return transform.localRotation;
         }
-        else
-        {
-            return CameraController.instance.newFollow.rotation;
-        }
+        
+        return new Quaternion(0,0,0,0);
     }
 
     public void Aim(bool Aimning)
@@ -545,23 +543,15 @@ public class PlayerModel : Entity, IDamageable
     {
         if(life <= 0)
         {
-            UnityEngine.Debug.Log("Death");
-
             _death = true;
 
-            _aiming = false;
-            _shooting = false;
-            _falling = false;
-            _onSprint = false;
-            _isCrouching = false;
-            _lauchGranade = false;
             _playerView.GetHurt(false);
 
             AudioManager.instance.AudioPlay(_deathSound, transform.position);
             _playerView.Death();
             _deathParticles.Play();
 
-            CameraController.instance.OnDeath();
+            EventManager.Trigger(ManagerKeys.Death);
         }
 
         if(life < (maxLife * 0.25))
@@ -573,10 +563,13 @@ public class PlayerModel : Entity, IDamageable
 
     private void DeadlyStatus()
     {
-        _heartBeatSound.SetActive(true);
-        realSpeed = (_speed * 0.5f);
-        _isDeadly = true;
-        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+        if (!_death)
+        {
+            _heartBeatSound.SetActive(true);
+            realSpeed = (_speed * 0.5f);
+            _isDeadly = true;
+            EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+        }
     }
 
     private void NormalStatus()

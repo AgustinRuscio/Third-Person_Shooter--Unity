@@ -24,16 +24,19 @@ public class CameraController : MonoBehaviour
     public Transform currentFollow;
 
     [SerializeField]
-    private float defaultMaxDistance;
+    private float _defaultMaxDistance;
 
     [SerializeField]
     private float currentDistance;
 
     [SerializeField]
-    private float aimDistance;
+    private float _aimDistance;
 
     [SerializeField]
-    private float crouchDistance;
+    private float _deathDistance;
+
+    [SerializeField]
+    private float _crouchDistance;
 
     [SerializeField]
     private float sprintDistance;
@@ -50,13 +53,17 @@ public class CameraController : MonoBehaviour
 
     private bool _crouch;
 
+    private bool _death;
+
     private void Awake()
     {
         instance = this;
 
-        currentDistance = defaultMaxDistance;
+        currentDistance = _defaultMaxDistance;
 
         currentFollow = follow;
+
+        EventManager.Suscribe(ManagerKeys.Death, OnDeath);
     }
 
     void Start()
@@ -75,7 +82,7 @@ public class CameraController : MonoBehaviour
             sensitivity = 1;
     }
 
-    public void SetAngle(int newAngle) => StartAngle = new Vector2(newAngle * Mathf.Deg2Rad, 0);  
+    public void SetAngle(int newAngle) => StartAngle = new Vector2(newAngle * Mathf.Deg2Rad, 0);
 
 
     void Update()
@@ -89,7 +96,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            Vector3.Lerp( crouchFollow.position, follow.position, 5);
+            Vector3.Lerp(crouchFollow.position, follow.position, 5);
             currentFollow = follow;
         }
 
@@ -132,13 +139,15 @@ public class CameraController : MonoBehaviour
 
 
         if (aim)
-            currentDistance = aimDistance;
-        else if(_sprint)
+            currentDistance = _aimDistance;
+        else if (_sprint)
             currentDistance = sprintDistance;
-        else if(_crouch)
-            currentDistance = crouchDistance;
-        else if(!_sprint || !aim)
-            currentDistance = defaultMaxDistance;
+        else if (_crouch)
+            currentDistance = _crouchDistance;
+        else if(_death)
+            currentDistance = _deathDistance;
+        else if (!_sprint || !aim)
+            currentDistance = _defaultMaxDistance;
     }
 
     private void CalculateNearPlaneSize()
@@ -173,6 +182,20 @@ public class CameraController : MonoBehaviour
 
     public void SetCrouchCamera(bool isCrouching) => _crouch = isCrouching;
 
-    public void OnDeath() => player = newFollow;
-    
+    public void OnDeath(params object[] parameters)
+    {
+        _death = true;
+        StartCoroutine(Desactivate());
+    }
+
+    IEnumerator Desactivate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        this.enabled = false;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.UnSuscribe(ManagerKeys.Death, OnDeath);
+    }
 }

@@ -131,10 +131,11 @@ MonoBehaviour:
   follow: {fileID: 0}
   crouchFollow: {fileID: 0}
   currentFollow: {fileID: 0}
-  defaultMaxDistance: 1.5
+  _defaultMaxDistance: 1.5
   currentDistance: 0
-  aimDistance: 0.35
-  crouchDistance: 0.57
+  _aimDistance: 0.45
+  _deathDistance: 8.45
+  _crouchDistance: 0.57
   sprintDistance: 0.6
   player: {fileID: 0}
   newFollow: {fileID: 1552895919}

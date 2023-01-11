@@ -12,6 +12,8 @@ public enum ManagerKeys
     GranadeNumber,
     GranadeAdded,
     LifeAdded,
+    Death,
+    ResetScene,
 }
 
 public static class EventManager

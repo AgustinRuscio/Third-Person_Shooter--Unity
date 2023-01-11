@@ -34,7 +34,8 @@ public class PlayerController
         ArtificialUpdateLogics = CheckJump;
         ArtificialUpdateLogics += CheckShoot;
         ArtificialUpdateLogics += CheckCrouch;
-        ArtificialUpdateLogics += CheckGranade; 
+        ArtificialUpdateLogics += CheckGranade;
+        ArtificialUpdateLogics += ResetScene;
     }
 
     public void ArtificialUpdate() => ArtificialUpdateLogics();
@@ -73,11 +74,15 @@ public class PlayerController
     }
 
     private void CheckAim() => _player.Aim(Input.GetButton("Aim"));
-    
 
-    private void CheckShoot() =>_player.Shoot(Input.GetButton("Fire1"));
-    
+    private void CheckShoot() =>_player.Shoot(Input.GetButton("Fire1")); 
 
     private void CheckCrouch() => _player.Crouch(Input.GetButton("Crouch"));
-   
+
+    private void ResetScene()
+    {
+        if(Input.GetButtonDown("Reset"))
+            EventManager.Trigger(ManagerKeys.ResetScene);
+    }
+
 }

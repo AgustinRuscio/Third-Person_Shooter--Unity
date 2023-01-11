@@ -10,7 +10,7 @@ using UnityEngine;
 public abstract class  Entity : MonoBehaviour
 {
     [SerializeField]
-    protected float life;
+    protected float life = 1;
 
     [SerializeField]
     protected float maxLife;
