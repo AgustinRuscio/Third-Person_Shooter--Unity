@@ -42,6 +42,8 @@ public class CameraController : MonoBehaviour
 
     public Transform player;
 
+    public Transform newFollow;
+
     private bool aim;
 
     private bool _sprint;
@@ -171,4 +173,6 @@ public class CameraController : MonoBehaviour
 
     public void SetCrouchCamera(bool isCrouching) => _crouch = isCrouching;
 
+    public void OnDeath() => player = newFollow;
+    
 }

@@ -1,9 +1,16 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimEvent : MonoBehaviour
 {
+    //This Script is use only for Method that will be call by the anims Event
+
     [SerializeField]
     private PlayerModel _player;
 

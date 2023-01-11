@@ -66,6 +66,16 @@ public class PlayerView
          _mono.StartCoroutine(ChangeBoolParameter(parameter, 2.5f));
     }
 
+    public void GetHurt(bool a)
+    {
+        string parameter = "Damage";
+        _animator.SetBool(parameter, a);
+
+        _mono.StartCoroutine(ChangeBoolParameter(parameter, 0.5f));
+    }
+
+    public void Death() =>_animator.SetBool("Death", true);
+
     IEnumerator ChangeBoolParameter(string parameterModificated, float duration)
     {
         yield return new WaitForSeconds(duration);

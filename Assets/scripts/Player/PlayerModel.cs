@@ -66,6 +66,7 @@ public class PlayerModel : Entity, IDamageable
     private bool _wasGrounded;
     private bool _wasFalling;
     private bool _isDeadly;
+    private bool _death;
 
     private PlayerController _playerController;
 
@@ -131,7 +132,16 @@ public class PlayerModel : Entity, IDamageable
     private SoundData _hurtSound;
 
     [SerializeField]
+    private SoundData _deathSound;
+
+    [SerializeField]
     private GameObject _heartBeatSound;
+
+    [SerializeField]
+    private ParticleSystem _bloodParticles;
+
+    [SerializeField]
+    private ParticleSystem _deathParticles;
 
     protected override void Awake()
     {
@@ -191,6 +201,8 @@ public class PlayerModel : Entity, IDamageable
 
         _shootSoundTimer.RunTimer();
         _playerView.SetCrouchAnim(_isCrouching);
+
+        UnityEngine.Debug.Log(inFloor);
 
         if (!_onSprint)
         {
@@ -271,11 +283,10 @@ public class PlayerModel : Entity, IDamageable
             AudioManager.instance.AudioPlay(_exhaustSound, transform.position);
         }
 
-        if(_aiming == true || _lauchGranade == true)
+        if(_aiming || _lauchGranade || _death)
         {
             realSpeed = 0;
         }
-
         Vector3 pos = transform.forward * dir.z;
 
         pos += transform.right * dir.x;
@@ -298,7 +309,7 @@ public class PlayerModel : Entity, IDamageable
             realJumpForce = _forceJump * 0.5f;
         }
 
-        if (inFloor && !_aiming)
+        if (inFloor && !_aiming && !_death)
         {
             _myRigidBody.AddForce(Vector3.up * realJumpForce, ForceMode.Impulse);
             _stamina -= _staminaReduceForJump;
@@ -309,55 +320,70 @@ public class PlayerModel : Entity, IDamageable
 
     public void Crouch(bool crouched)
     {
-        _isCrouching = crouched;
-
-        CameraController.instance.SetCrouchCamera(_isCrouching);
-
-        if (_isCrouching)
+        if (!_death)
         {
-            _myCollider.center = _colliderCrouchPos;
-            _myCollider.height = _crouchColliderlHeight;
+            _isCrouching = crouched;
+
+            CameraController.instance.SetCrouchCamera(_isCrouching);
+
+            if (_isCrouching)
+            {
+                _myCollider.center = _colliderCrouchPos;
+                _myCollider.height = _crouchColliderlHeight;
+            }
+            else
+            {
+                _myCollider.center = _colliderOriginalPos;
+                _myCollider.height = _originalColliderlHeight;
+            }
         }
-        else
-        {
-            _myCollider.center = _colliderOriginalPos;
-            _myCollider.height = _originalColliderlHeight;
-        }
+        
     }
 
     public bool inFloor
     {
         get
         {
-            return (Physics.Raycast(transform.position, Vector3.down, 0.3f));
+            return (Physics.Raycast(transform.position + new Vector3(0,0.2f,0), Vector3.down, 0.3f));
         }
     }
 
     public Quaternion RotateWithMouse(float y)
     {
-        transform.localRotation = Quaternion.Euler(0, transform.localRotation.y + y * 30f, 0);
+        if (!_death)
+        {
+            transform.localRotation = Quaternion.Euler(0, transform.localRotation.y + y * 30f, 0);
 
-        return transform.localRotation;
+            return transform.localRotation;
+        }
+        else
+        {
+            return CameraController.instance.newFollow.rotation;
+        }
     }
 
     public void Aim(bool Aimning)
     {
-        _aiming = Aimning;
+        if (!_death)
+        {
 
-        _playerView.SetAimAnim(_aiming);
+            _aiming = Aimning;
 
-        CameraController.instance.SetAimCamera(_aiming);
+            _playerView.SetAimAnim(_aiming);
 
-        _shootBar.SetActive(_aiming);
+            CameraController.instance.SetAimCamera(_aiming);
 
-        _laser.SetActive(_aiming);
+            _shootBar.SetActive(_aiming);
+
+            _laser.SetActive(_aiming);
+        }
     }
 
     public void Shoot(bool onShoot)
     {
         _shooting = onShoot;
 
-        if (_aiming && _shooting && inFloor)
+        if (_aiming && _shooting && inFloor && !_death)
         {
             if (_shootTime > 0)
             {
@@ -429,7 +455,7 @@ public class PlayerModel : Entity, IDamageable
 
     public void LaunchGranade()
     {
-        if (_aiming && _granadeAvalible > 0)
+        if (_aiming && _granadeAvalible > 0 && !_death)
         {
             _playerView.Granade();
             _lauchGranade = true;
@@ -454,11 +480,11 @@ public class PlayerModel : Entity, IDamageable
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Vector3 dir = _shootPoint.forward * _shootDistance;
+        Vector3 dir = Vector3.down * 0.3f;
 
         
 
-        Gizmos.DrawRay(_shootPoint.position, dir);
+        Gizmos.DrawRay(transform.position + new Vector3(0,0.2f,0), dir);
     }
 
     #region Interfaces
@@ -470,6 +496,9 @@ public class PlayerModel : Entity, IDamageable
         EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
         AudioManager.instance.AudioPlay(_hurtSound, transform.position);
 
+        _playerView.GetHurt(true);
+        _bloodParticles.Play();
+
         CheckLife();
     }
 
@@ -480,6 +509,9 @@ public class PlayerModel : Entity, IDamageable
 
         EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
         AudioManager.instance.AudioPlay(_hurtSound, transform.position);
+
+        _playerView.GetHurt(true);
+        _bloodParticles.Play();
 
         CheckLife();
     }
@@ -494,6 +526,10 @@ public class PlayerModel : Entity, IDamageable
 
             EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
             AudioManager.instance.AudioPlay(_hurtSound, transform.position);
+
+            _playerView.GetHurt(true);
+            _bloodParticles.Play();
+
 
             CheckLife();
         }
@@ -510,6 +546,22 @@ public class PlayerModel : Entity, IDamageable
         if(life <= 0)
         {
             UnityEngine.Debug.Log("Death");
+
+            _death = true;
+
+            _aiming = false;
+            _shooting = false;
+            _falling = false;
+            _onSprint = false;
+            _isCrouching = false;
+            _lauchGranade = false;
+            _playerView.GetHurt(false);
+
+            AudioManager.instance.AudioPlay(_deathSound, transform.position);
+            _playerView.Death();
+            _deathParticles.Play();
+
+            CameraController.instance.OnDeath();
         }
 
         if(life < (maxLife * 0.25))
@@ -535,29 +587,42 @@ public class PlayerModel : Entity, IDamageable
         EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
     }
 
-    private void AddGranade(params object[] granadeAdded)
+    private void AddGranade(params object[] granadeAddedParameter)
     {
-        _granadeAvalible += (int)granadeAdded[0];
-
-        if (_granadeAvalible > _maxGranadeAvalible)
-            _granadeAvalible = _maxGranadeAvalible;
-
-        EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
-    }
-
-    private void AddLife(params object[] lifeAdded)
-    {
-        life += (float)lifeAdded[0];
-
-        if (life > (maxLife * 0.25))
+        if (_granadeAvalible < _maxGranadeAvalible)
         {
-            NormalStatus();
+            _granadeAvalible += (int)granadeAddedParameter[0];
+
+            if (_granadeAvalible > _maxGranadeAvalible)
+                _granadeAvalible = _maxGranadeAvalible;
+
+            Destroy((GameObject)granadeAddedParameter[1]);
+
+            EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
+            AudioManager.instance.AudioPlay((SoundData)granadeAddedParameter[2], transform.position);
         }
-
-        if (life > maxLife)
-            life = maxLife;
-
-        EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+        
     }
 
+    private void AddLife(params object[] lifeAddedParameters)
+    {
+        if(life < maxLife)
+        {
+            life += (float)lifeAddedParameters[0];
+
+            if (life > (maxLife * 0.25))
+            {
+                NormalStatus();
+            }
+
+            if (life > maxLife)
+                life = maxLife;
+
+            Destroy((GameObject)lifeAddedParameters[1]);
+
+            EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
+            AudioManager.instance.AudioPlay((SoundData)lifeAddedParameters[2], transform.position);
+        }
+        
+    }
 }
