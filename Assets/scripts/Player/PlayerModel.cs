@@ -163,12 +163,15 @@ public class PlayerModel : Entity, IDamageable
 
         _maxShootTime = _shootTime;
 
-        Hud.instance.UpdateHealthBar(life, maxLife, _isDeadly);
-
-        Hud.instance.UpdateGranadeImages(_granadeAvalible);
-
         EventManager.Suscribe(ManagerKeys.GranadeAdded, AddGranade);
         EventManager.Suscribe(ManagerKeys.LifeAdded, AddLife);
+    }
+
+    private void Start()
+    {
+         Hud.instance.UpdateHealthBar(life, maxLife, _isDeadly);
+ 
+         Hud.instance.UpdateGranadeImages(_granadeAvalible);
     }
 
     private void FixedUpdate()

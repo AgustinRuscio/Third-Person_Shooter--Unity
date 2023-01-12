@@ -100,7 +100,7 @@ public class Hud : MonoBehaviour
         {
             _granadeImages[i].SetActive(false);
         }
-    }
+     }
 
     private void OnDestroy()
     {
