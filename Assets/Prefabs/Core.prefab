@@ -428,3 +428,9 @@ MonoBehaviour:
   _deathPanel: {fileID: 933903182}
   _deathTxt: {fileID: 561247845}
   _resetTxt: {fileID: 603527961}
+  _deathSoundFx:
+    clip: {fileID: 8300000, guid: e32d2116f7c582246ae692572c040c37, type: 3}
+    miixerGroup: {fileID: -376791039906133034, guid: 1bfb4d0eaf4a45c4c9f944e75fd527e5, type: 2}
+    loop: 0
+    sound3D: 0
+    maxDistance: 0

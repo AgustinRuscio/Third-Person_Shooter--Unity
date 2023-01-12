@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text _resetTxt;
 
+    [SerializeField]
+    private SoundData _deathSoundFx;
+
     private bool _death;
 
     private void Awake()
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
 
         EventManager.Suscribe(ManagerKeys.Death, Death);
         EventManager.Suscribe(ManagerKeys.ResetScene, ResetScene);
+
 
         Color c = _deathPanel.color;
         c.a = 0f;
@@ -52,6 +56,9 @@ public class GameManager : MonoBehaviour
     IEnumerator StartFadeIn()
     {
         yield return new WaitForSeconds(3f);
+
+        AudioManager.instance.AudioPlay(_deathSoundFx);
+
         FadeInDeathPanel();
     }
 
@@ -78,6 +85,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    private void OnDestroy() => EventManager.UnSuscribe(ManagerKeys.Death, Death);
+    private void OnDestroy()
+    {
+        EventManager.UnSuscribe(ManagerKeys.Death, Death);
+        EventManager.UnSuscribe(ManagerKeys.ResetScene, ResetScene);
+    }
     
 }

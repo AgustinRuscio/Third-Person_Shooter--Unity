@@ -65,7 +65,7 @@ public class PlayerModel : Entity, IDamageable
     private bool _lauchGranade;
     private bool _wasGrounded;
     private bool _wasFalling;
-    private bool _isDeadly;
+    private bool _isDeadly = false;
     private bool _death;
 
     private PlayerController _playerController;
@@ -201,8 +201,6 @@ public class PlayerModel : Entity, IDamageable
 
         _shootSoundTimer.RunTimer();
         _playerView.SetCrouchAnim(_isCrouching);
-
-        UnityEngine.Debug.Log(inFloor);
 
         if (!_onSprint)
         {
@@ -531,12 +529,6 @@ public class PlayerModel : Entity, IDamageable
 
             CheckLife();
         }
-        else
-        {
-            UnityEngine.Debug.Log("not enought");
-        }
-
-        
     }
 
     protected override void CheckLife()

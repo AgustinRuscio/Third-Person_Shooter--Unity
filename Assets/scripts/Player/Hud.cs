@@ -31,10 +31,6 @@ public class Hud : MonoBehaviour
         if(instance == null)
             instance = this;
 
-         _healthBar.enabled = true;
-         _staminaBar.enabled = true;
-         _staminaBar.enabled = true;
-
         EventManager.Suscribe(ManagerKeys.LifeEvent, UpdateHealthBar);
         EventManager.Suscribe(ManagerKeys.GranadeNumber, UpdateGranadeImages);
         EventManager.Suscribe(ManagerKeys.Death, Death);
@@ -46,14 +42,14 @@ public class Hud : MonoBehaviour
     {
         _healthBar.size = (float)parameter[0] / (float)parameter[1];
 
-        if ((bool)parameter[2])
-        {
-            _deadlyPanel.gameObject.SetActive(true);
-        }
-        else
-        {
-            _deadlyPanel.gameObject.SetActive(false);
-        }
+         if ((bool)parameter[2])
+         {
+             _deadlyPanel.gameObject.SetActive(true);
+         }
+         else
+         {
+             _deadlyPanel.gameObject.SetActive(false);
+         }
 
     }
 
@@ -98,7 +94,7 @@ public class Hud : MonoBehaviour
         _healthBar.gameObject.SetActive(false);
         _staminaBar.gameObject.SetActive(false);
         _shootBar.gameObject.SetActive(false);
-
+        _deadlyPanel.gameObject.SetActive(false);
 
         for (int i = 0; i < _granadeImages.Length; i++)
         {
