@@ -9,13 +9,13 @@ public class MenuController : MonoBehaviour
     private GameObject _creditsPanel;
 
     [SerializeField]
+    private GameObject _settingsPanel;
+
+    [SerializeField]
     private SoundData _clickSound;
 
-    public void Play()
-    {
-        ClickSound();
-        SceneManager.LoadScene("Lvl1" ,LoadSceneMode.Single);
-    }
+    public void Play() => LevelLoader.LoadLevel("Lvl1");
+    
 
     public void OpenCreditsPanel()
     {
@@ -29,6 +29,19 @@ public class MenuController : MonoBehaviour
         _creditsPanel.SetActive(false);
     }
 
+    public void OpenSettingsPanel()
+    {
+        ClickSound();
+        _settingsPanel.SetActive(true);
+    }
+
+    public void CloseCSettingsPanel()
+    {
+        ClickSound();
+        _settingsPanel.SetActive(false);
+    }
+
+    public void QuitGame() => Application.Quit();
     private void ClickSound() => AudioManager.instance.AudioPlay(_clickSound);
     
 }
