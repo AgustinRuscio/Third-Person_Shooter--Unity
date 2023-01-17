@@ -2063,6 +2063,7 @@ MonoBehaviour:
   _shootDistance: 10
   _timeOnCoolDown: 3
   _granadeRange: 10
+  _damage: 0.1
   _granadeAvalible: 3
   _minFallDistance: 1.5
   _myAnimator: {fileID: 2026894848603707440}

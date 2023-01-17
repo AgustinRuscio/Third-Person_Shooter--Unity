@@ -48,6 +48,9 @@ public class PlayerModel : Entity, IDamageable
     private float _granadeRange;
 
     [SerializeField]
+    private float _damage;
+
+    [SerializeField]
     private int _granadeAvalible;
 
     private int _maxGranadeAvalible = 3;
@@ -408,8 +411,15 @@ public class PlayerModel : Entity, IDamageable
                     var explosive = hit.collider.gameObject.GetComponent<IExplosive>();
 
                     if (explosive != null)
-                    {
                         explosive.OnExplosion();
+                    
+
+                    var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+
+                    if (damageable != null)
+                    {
+                        damageable.TakeDamage(_damage);
+                        UnityEngine.Debug.Log("damageable touch");
                     }
                 }
 

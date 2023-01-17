@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7946269415964010237}
   - component: {fileID: 9139943343599823409}
   - component: {fileID: 2641809914167380379}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder_022
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 429411343750921725}
   - component: {fileID: 5717252594978653357}
   - component: {fileID: 1747692157}
+  - component: {fileID: 1069021840}
   m_Layer: 0
   m_Name: Model Swing Trap 1
   m_TagString: Untagged
@@ -176,6 +177,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: -0.4, y: 0.09, z: 0.05}
   m_Center: {x: -0.0009689259, y: 0.03, z: -0.01}
+--- !u!114 &1069021840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185046799170194773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000011002288308, guid: beb3acff7ab73944fb8f470f24d74ed3, type: 3}
 --- !u!1 &1873445734467698739
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +201,7 @@ GameObject:
   - component: {fileID: 6872211695828375585}
   - component: {fileID: 5364825659209687685}
   - component: {fileID: 1767783594875136348}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RopeFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +274,7 @@ GameObject:
   - component: {fileID: 8507434175075994981}
   - component: {fileID: 2133878457908234174}
   - component: {fileID: 8827930460481425224}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder_022.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +355,7 @@ GameObject:
   - component: {fileID: 3867661286726654123}
   - component: {fileID: 6893489640537807096}
   - component: {fileID: 985743956261335578}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder_021
   m_TagString: Untagged
   m_Icon: {fileID: 0}

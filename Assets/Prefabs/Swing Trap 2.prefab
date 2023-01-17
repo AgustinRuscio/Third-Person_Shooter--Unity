@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405484571}
   - component: {fileID: 405484572}
+  - component: {fileID: 1361965237}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -44,6 +45,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 0.8, z: 0.44}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1361965237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405484570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff94393c687369b4a83b1070e923209b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particles: {fileID: 198000013440722320, guid: 02a509a7fa70ed740ba4197e20c5d32d, type: 3}
 --- !u!1 &816761461607939737
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,7 +69,7 @@ GameObject:
   - component: {fileID: 5891148034482436964}
   - component: {fileID: 2556945291723416308}
   - component: {fileID: 619388646825645332}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder_022.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +263,7 @@ GameObject:
   - component: {fileID: 2447249071763197923}
   - component: {fileID: 4019304746326065463}
   - component: {fileID: 9141362872712011078}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RopeFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +336,7 @@ GameObject:
   - component: {fileID: 4774070807502025772}
   - component: {fileID: 3680422477331285447}
   - component: {fileID: 6470866378629928694}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder_022
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,7 +491,7 @@ GameObject:
   - component: {fileID: 3929835962542030555}
   - component: {fileID: 3922196321712539190}
   - component: {fileID: 1838245878958361918}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cylinder_021
   m_TagString: Untagged
   m_Icon: {fileID: 0}
