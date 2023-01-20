@@ -11,6 +11,14 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum Difficulty
+{
+    Easy,
+    Normal,
+    Hard,
+    Default
+}
+
 public class GameManager : MonoBehaviour
 {
     public GameManager instance;
@@ -27,10 +35,22 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private SoundData _deathSoundFx;
 
+    public Difficulty _currentDifficulty;
+
+    [SerializeField]
+    private DifficultySetter _spawner;
+
     private bool _death;
 
     private void Awake()
     {
+        //SetDifficulty
+
+        _currentDifficulty = GameData.GetDificultyEnum(PlayerPrefs.GetString("Dif"));
+
+        _spawner._difficulty = _currentDifficulty;
+
+
         Time.timeScale = 1f;
 
         if (instance == null)

@@ -70,6 +70,8 @@ public class PlayerModel : Entity, IDamageable
     private bool _wasFalling;
     private bool _isDeadly = false;
     private bool _death;
+    private bool _gamePause;
+
 
     private PlayerController _playerController;
 
@@ -146,10 +148,12 @@ public class PlayerModel : Entity, IDamageable
     [SerializeField]
     private ParticleSystem _deathParticles;
 
+    public IInteractuable _interactuable;
+
     protected override void Awake()
     {
         base.Awake();
-        _playerController = new PlayerController(this);
+        _playerController = new PlayerController(this, _gamePause);
 
         _playerView = new PlayerView(_myAnimator, this);
 
@@ -240,7 +244,26 @@ public class PlayerModel : Entity, IDamageable
 
         if (item != null)
             item.OnGrab();
+
+        var interacruable = other.gameObject.GetComponent<IInteractuable>();
+
+        if (interacruable != null && _interactuable == null)
+            _interactuable = interacruable;
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var interacruable = other.gameObject.GetComponent<IInteractuable>();
+
+        if(interacruable == _interactuable)
+            _interactuable = null;
+    }
+
+    public void Interaction()
+    {
+        _interactuable?.OnInteractaction();
+    }
+
 
     #region MOVEMENT
     public void MovePlayer(Vector3 dir, bool sprint)

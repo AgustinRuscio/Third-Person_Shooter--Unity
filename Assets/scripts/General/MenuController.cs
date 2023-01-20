@@ -14,9 +14,11 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private SoundData _clickSound;
 
-    public void Play() => LevelLoader.LoadLevel("Lvl1");
+    private void Awake() => PlayerPrefs.SetString("Dif", "Normal");
     
 
+    public void Play() => LevelLoader.LoadLevel("Lvl1");
+    
     public void OpenCreditsPanel()
     {
         ClickSound();
@@ -40,8 +42,30 @@ public class MenuController : MonoBehaviour
         ClickSound();
         _settingsPanel.SetActive(false);
     }
+    public void BackToMainMenu()
+    {
+        ClickSound();
+        SceneManager.LoadScene("MainMenu");
+    }
 
     public void QuitGame() => Application.Quit();
     private void ClickSound() => AudioManager.instance.AudioPlay(_clickSound);
     
+    public void EsaySelector()
+    {
+        ClickSound();
+        PlayerPrefs.SetString("Dif", "Easy");
+    }
+
+    public void NormalSelector()
+    {
+        ClickSound();
+        PlayerPrefs.SetString("Dif", "Normal");
+    }
+
+    public void HardSelector()
+    {
+        ClickSound();
+        PlayerPrefs.SetString("Dif", "Hard");
+    }
 }

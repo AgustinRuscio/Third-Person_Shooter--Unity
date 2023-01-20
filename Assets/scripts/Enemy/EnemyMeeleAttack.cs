@@ -20,6 +20,8 @@ public class EnemyMeeleAttack : MonoBehaviour
 
     private void Awake() => _attackTimer = new GenericTimer(_attackCoolDowm);
 
+    private void Start() => _damage *= PlayerPrefs.GetFloat("EnemyDamageMultiplier");
+
     private void Update() => _attackTimer.RunTimer();
     
 

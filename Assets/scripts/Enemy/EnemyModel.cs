@@ -32,7 +32,11 @@ public class EnemyModel : Entity, IDamageable
 
     protected override void Awake()
     {
-        base.Awake();
+        maxLife *= PlayerPrefs.GetFloat("EnemyLifeMultiplier");
+        _speed *= PlayerPrefs.GetFloat("EnemySpeedMultiplier");
+
+        life = maxLife;
+
 
         enemyView = new EnemyView(this, _animator);
 
@@ -54,9 +58,14 @@ public class EnemyModel : Entity, IDamageable
         
         if(player != null && !_death)
         {
-            transform.LookAt(_playerPosition.position);
-            enemyView.DetectionAnim(true);
+            Detection();
         }
+    }
+
+    private void Detection()
+    {
+        transform.LookAt(_playerPosition.position);
+        enemyView.DetectionAnim(true);
     }
 
     private void MoveEnemy()
@@ -98,6 +107,7 @@ public class EnemyModel : Entity, IDamageable
     public void TakeDamage(float damage)
     {
         life -= damage;
+        Detection();
 
         float random = Random.Range(0, 101);
         Debug.Log(random);

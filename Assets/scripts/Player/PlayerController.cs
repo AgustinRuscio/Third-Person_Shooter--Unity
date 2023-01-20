@@ -12,17 +12,20 @@ public class PlayerController
 {
     private PlayerModel _player;
 
+    private bool _pause;
+
     public float x;
     public float z;
 
     private Action ArtificialUpdateLogics;
     private Action ArtificialFixedUpdateLogics;
 
-    public PlayerController(PlayerModel player)
+    public PlayerController(PlayerModel player, bool pause)
     {
         _player = player;
 
         SetMovementsDelegates();
+        _pause = pause; 
     }
 
     private void SetMovementsDelegates()
@@ -36,6 +39,8 @@ public class PlayerController
         ArtificialUpdateLogics += CheckCrouch;
         ArtificialUpdateLogics += CheckGranade;
         ArtificialUpdateLogics += ResetScene;
+        ArtificialUpdateLogics += CheckInteraction;
+        ArtificialUpdateLogics += PauseResumeGame;
     }
 
     public void ArtificialUpdate() => ArtificialUpdateLogics();
@@ -83,6 +88,26 @@ public class PlayerController
     {
         if(Input.GetButtonDown("Reset"))
             EventManager.Trigger(ManagerKeys.ResetScene);
+    }
+
+    private void CheckInteraction()
+    {
+        if (Input.GetButtonDown("Interaction"))
+            _player._interactuable?.OnInteractaction();  
+    }
+
+    private void PauseResumeGame()
+    {
+        if (Input.GetButtonDown("Pause"))
+        {
+            _pause = !_pause;
+
+            if (_pause)
+                EventManager.Trigger(ManagerKeys.PauseGame);
+            else
+                EventManager.Trigger(ManagerKeys.ResumeGame);
+
+        }
     }
 
 }

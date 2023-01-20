@@ -14,6 +14,8 @@ public enum ManagerKeys
     LifeAdded,
     Death,
     ResetScene,
+    PauseGame,
+    ResumeGame,
 }
 
 public static class EventManager
