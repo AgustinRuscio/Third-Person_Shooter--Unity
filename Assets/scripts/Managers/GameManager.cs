@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
 
         _spawner._difficulty = _currentDifficulty;
 
-
         Time.timeScale = 1f;
 
         if (instance == null)
@@ -68,7 +67,6 @@ public class GameManager : MonoBehaviour
         c2.a = 0f;
         _deathTxt.color = c2;
     }
-
 
     private void ResetScene(params object[] parameters)
     {
@@ -89,7 +87,6 @@ public class GameManager : MonoBehaviour
 
     private void FadeInDeathPanel() => StartCoroutine(FadeIn());
     
-
     IEnumerator FadeIn()
     {
         for(float f = 0.05f; f <= 1; f += 0.05f)
@@ -114,6 +111,5 @@ public class GameManager : MonoBehaviour
     {
         EventManager.UnSuscribe(ManagerKeys.Death, Death);
         EventManager.UnSuscribe(ManagerKeys.ResetScene, ResetScene);
-    }
-    
+    } 
 }

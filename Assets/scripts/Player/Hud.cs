@@ -43,14 +43,9 @@ public class Hud : MonoBehaviour
         _healthBar.size = (float)parameter[0] / (float)parameter[1];
 
          if ((bool)parameter[2])
-         {
              _deadlyPanel.gameObject.SetActive(true);
-         }
          else
-         {
              _deadlyPanel.gameObject.SetActive(false);
-         }
-
     }
 
     public void UpdateShootBar(float shootTime, float maxShootTime) => _shootBar.size = shootTime / maxShootTime;

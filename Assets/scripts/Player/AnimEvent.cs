@@ -43,28 +43,13 @@ public class AnimEvent : MonoBehaviour
         _player.SetLauchGranadeFalse();
     }
 
-    private void LandingSound()
-    {
-        AudioManager.instance.AudioPlay(_landSound, transform.position);
-    }
+    private void LandingSound() => AudioManager.instance.AudioPlay(_landSound, transform.position);
 
-    private void StepOne()
-    {
-        AudioManager.instance.AudioPlay(_stepOne, transform.position);
-    }
+    private void StepOne()  => AudioManager.instance.AudioPlay(_stepOne, transform.position);
+    
+    private void StepTwo() => AudioManager.instance.AudioPlay(_stepTwo, transform.position);
 
-    private void StepTwo()
-    {
-        AudioManager.instance.AudioPlay(_stepTwo, transform.position);
-    }
+    private void BreathOne() => AudioManager.instance.AudioPlay(_breathOne, transform.position);
 
-    private void BreathOne()
-    {
-        AudioManager.instance.AudioPlay(_breathOne, transform.position);
-    }
-
-    private void BreathTwo()
-    {
-        AudioManager.instance.AudioPlay(_breathTwo, transform.position);
-    }
+    private void BreathTwo() => AudioManager.instance.AudioPlay(_breathTwo, transform.position);
 }

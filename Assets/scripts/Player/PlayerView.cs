@@ -28,13 +28,9 @@ public class PlayerView
         _sprint = onSprint;
 
         if(aim) 
-        {
             _animator.SetBool("Sprint", false);
-        }
         else if(_sprint && z !> 0)
-        {
             _animator.SetBool("Sprint", true);
-        }
         else
         {
             _animator.SetFloat("Horizontal", x);
@@ -58,6 +54,7 @@ public class PlayerView
 
         _mono.StartCoroutine(ChangeBoolParameter(parameter, 0.6f));
     }
+
     public void Granade()
     {
         string parameter = "Granade";
@@ -80,7 +77,5 @@ public class PlayerView
     {
         yield return new WaitForSeconds(duration);
         _animator.SetBool(parameterModificated, false);
-
-
     }
 }

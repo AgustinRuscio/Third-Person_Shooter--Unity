@@ -259,11 +259,8 @@ public class PlayerModel : Entity, IDamageable
             _interactuable = null;
     }
 
-    public void Interaction()
-    {
-        _interactuable?.OnInteractaction();
-    }
-
+    public void Interaction() => _interactuable?.OnInteractaction();
+    
 
     #region MOVEMENT
     public void MovePlayer(Vector3 dir, bool sprint)
@@ -284,36 +281,27 @@ public class PlayerModel : Entity, IDamageable
             realJumpForce = _forceJump * 1.5f;
 
             if(dir.z < 0)
-            {
                 dir.z = 0;
-            }
 
             _stamina -= 45f * Time.deltaTime;
             CameraController.instance.SetSprintCamera(_onSprint);
     
             if (_stamina <= 0)
-            {
                 _stamina = 0;
-            }
+            
         }
         else if (_isCrouching)
-        {
             realSpeed = _speed * 0.6f;
-        }
         else
-        {
             realSpeed = _speed;
-        }
+           
 
         if(_stamina < 25)
-        {
             AudioManager.instance.AudioPlay(_exhaustSound, transform.position);
-        }
 
         if(_aiming || _lauchGranade || _death)
-        {
             realSpeed = 0;
-        }
+
         Vector3 pos = transform.forward * dir.z;
 
         pos += transform.right * dir.x;
@@ -327,14 +315,10 @@ public class PlayerModel : Entity, IDamageable
     public void Jump()
     {
         if (!_onSprint && _stamina >= _staminaReduceForJump)
-        {
             realJumpForce = _forceJump;
-        }
 
         if(_stamina < _staminaReduceForJump)
-        {
             realJumpForce = _forceJump * 0.5f;
-        }
 
         if (inFloor && !_aiming && !_death)
         {
@@ -364,7 +348,6 @@ public class PlayerModel : Entity, IDamageable
                 _myCollider.height = _originalColliderlHeight;
             }
         }
-        
     }
 
     public bool inFloor
@@ -391,7 +374,6 @@ public class PlayerModel : Entity, IDamageable
     {
         if (!_death)
         {
-
             _aiming = Aimning;
 
             _playerView.SetAimAnim(_aiming);
@@ -440,12 +422,8 @@ public class PlayerModel : Entity, IDamageable
                     var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
 
                     if (damageable != null)
-                    {
                         damageable.TakeDamage(_damage);
-                        UnityEngine.Debug.Log("damageable touch");
-                    }
                 }
-
 
                 if (_shootSoundTimer.CheckCoolDown())
                 {
@@ -514,8 +492,6 @@ public class PlayerModel : Entity, IDamageable
         Gizmos.color = Color.yellow;
         Vector3 dir = Vector3.down * 0.3f;
 
-        
-
         Gizmos.DrawRay(transform.position + new Vector3(0,0.2f,0), dir);
     }
 
@@ -562,7 +538,6 @@ public class PlayerModel : Entity, IDamageable
             _playerView.GetHurt(true);
             _bloodParticles.Play();
 
-
             CheckLife();
         }
     }
@@ -583,9 +558,7 @@ public class PlayerModel : Entity, IDamageable
         }
 
         if(life < (maxLife * 0.25))
-        {
             DeadlyStatus();
-        }
     }
     #endregion
 
@@ -621,8 +594,7 @@ public class PlayerModel : Entity, IDamageable
 
             EventManager.Trigger(ManagerKeys.GranadeNumber, _granadeAvalible);
             AudioManager.instance.AudioPlay((SoundData)granadeAddedParameter[2], transform.position);
-        }
-        
+        }       
     }
 
     private void AddLife(params object[] lifeAddedParameters)
@@ -632,9 +604,7 @@ public class PlayerModel : Entity, IDamageable
             life += (float)lifeAddedParameters[0];
 
             if (life > (maxLife * 0.25))
-            {
                 NormalStatus();
-            }
 
             if (life > maxLife)
                 life = maxLife;
@@ -643,7 +613,6 @@ public class PlayerModel : Entity, IDamageable
 
             EventManager.Trigger(ManagerKeys.LifeEvent, life, maxLife, _isDeadly);
             AudioManager.instance.AudioPlay((SoundData)lifeAddedParameters[2], transform.position);
-        }
-        
+        }       
     }
 }

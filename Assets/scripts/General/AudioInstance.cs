@@ -12,11 +12,8 @@ public class AudioInstance : MonoBehaviour
 {
      private AudioSource _audioSource;
 
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-    }
-
+    private void Awake() => _audioSource = GetComponent<AudioSource>();
+    
     public void IntancePlay(SoundData audio)
     {
         _audioSource.loop = audio.loop;
@@ -33,8 +30,5 @@ public class AudioInstance : MonoBehaviour
             Destroy(gameObject, audio.clip.length);
     }
 
-    private void OnDestroy()
-    {
-        AudioManager.instance.RemoveFromList(_audioSource.clip);
-    }
+    private void OnDestroy() => AudioManager.instance.RemoveFromList(_audioSource.clip);
 }

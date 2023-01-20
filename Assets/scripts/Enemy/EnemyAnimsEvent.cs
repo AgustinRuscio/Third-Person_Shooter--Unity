@@ -1,3 +1,8 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,16 +64,10 @@ public class EnemyAnimsEvent : MonoBehaviour
          }
      }
 
-    private void StepOne()
-    {
-        AudioManager.instance.AudioPlay(_stepOne, transform.position);
-    }
-
-    private void StepTwo()
-    {
-        AudioManager.instance.AudioPlay(_stepTwo, transform.position);
-    }
-
+    private void StepOne() => AudioManager.instance.AudioPlay(_stepOne, transform.position);
+    
+    private void StepTwo() => AudioManager.instance.AudioPlay(_stepTwo, transform.position);
+    
     public void GetHitSound() => AudioManager.instance.AudioPlay(_getHitSound, transform);
 
     public void DeathSound() => AudioManager.instance.AudioPlay(_deathSound, transform);

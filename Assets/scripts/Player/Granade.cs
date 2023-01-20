@@ -26,7 +26,6 @@ public class Granade : MonoBehaviour
 
     void Start() => Invoke("Explode", delay);
     
-
     private void Explode()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);

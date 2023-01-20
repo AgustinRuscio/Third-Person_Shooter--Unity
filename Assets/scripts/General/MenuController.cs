@@ -1,3 +1,8 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +21,6 @@ public class MenuController : MonoBehaviour
 
     private void Awake() => PlayerPrefs.SetString("Dif", "Normal");
     
-
     public void Play() => LevelLoader.LoadLevel("Lvl1");
     
     public void OpenCreditsPanel()
@@ -42,6 +46,7 @@ public class MenuController : MonoBehaviour
         ClickSound();
         _settingsPanel.SetActive(false);
     }
+
     public void BackToMainMenu()
     {
         ClickSound();

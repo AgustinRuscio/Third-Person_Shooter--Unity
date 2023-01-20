@@ -64,6 +64,8 @@ public class CameraController : MonoBehaviour
         currentFollow = follow;
 
         EventManager.Suscribe(ManagerKeys.Death, OnDeath);
+        EventManager.Suscribe(ManagerKeys.PauseGame, OnPause);
+        EventManager.Suscribe(ManagerKeys.ResumeGame, OnResume);
     }
 
     void Start()
@@ -78,6 +80,7 @@ public class CameraController : MonoBehaviour
     private void ChangeSensitivity()
     {
         sensitivity = PlayerPrefs.GetFloat("sensitivity");
+
         if (sensitivity <= 0)
             sensitivity = 1;
     }
@@ -188,6 +191,10 @@ public class CameraController : MonoBehaviour
         StartCoroutine(Desactivate());
     }
 
+    private void OnPause(params object[] parameters) => this.enabled = false;
+    
+    private void OnResume(params object[] parameters) => this.enabled = true;
+
     IEnumerator Desactivate()
     {
         yield return new WaitForSeconds(0.5f);
@@ -197,5 +204,7 @@ public class CameraController : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.UnSuscribe(ManagerKeys.Death, OnDeath);
+        EventManager.UnSuscribe(ManagerKeys.PauseGame, OnPause);
+        EventManager.UnSuscribe(ManagerKeys.ResumeGame, OnResume);
     }
 }

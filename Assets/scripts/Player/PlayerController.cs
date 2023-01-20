@@ -106,8 +106,6 @@ public class PlayerController
                 EventManager.Trigger(ManagerKeys.PauseGame);
             else
                 EventManager.Trigger(ManagerKeys.ResumeGame);
-
         }
     }
-
 }

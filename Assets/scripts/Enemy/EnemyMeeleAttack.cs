@@ -1,3 +1,8 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +29,6 @@ public class EnemyMeeleAttack : MonoBehaviour
 
     private void Update() => _attackTimer.RunTimer();
     
-
     private void OnTriggerStay(Collider other)
     {
         var damageable = other.gameObject.GetComponent<IDamageable>();
@@ -33,7 +37,6 @@ public class EnemyMeeleAttack : MonoBehaviour
         {
             _enemyModel.RunAttackAnim();
             events.FillMeleeVariants(damageable, _damage, _attackTimer);
-            
         }
     }
 }

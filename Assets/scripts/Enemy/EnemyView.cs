@@ -1,3 +1,8 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,5 +43,4 @@ public class EnemyView
     public void DetectionAnim(bool detectionStatus) => _animator.SetBool("Detection", detectionStatus);
 
     public void Death() => _animator.SetBool("Death", true);
-
 }

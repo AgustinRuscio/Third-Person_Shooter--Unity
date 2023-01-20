@@ -1,3 +1,8 @@
+//--------------------------------------//
+//          Agustin Ruscio             //
+//------------------------------------//
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +13,6 @@ public class EnemyModel : Entity, IDamageable
     private bool _death;
 
     private float _originaSpeed;
-
 
     [SerializeField]
     private float _speed;
@@ -37,18 +41,15 @@ public class EnemyModel : Entity, IDamageable
 
         life = maxLife;
 
-
         enemyView = new EnemyView(this, _animator);
 
         _originaSpeed = _speed;
     }
 
-
     void Update()
     {
         if (_canMove && !_death)
             MoveEnemy();
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -57,9 +58,7 @@ public class EnemyModel : Entity, IDamageable
         var player = other.gameObject.GetComponent<PlayerModel>();
         
         if(player != null && !_death)
-        {
-            Detection();
-        }
+            Detection();       
     }
 
     private void Detection()
@@ -88,7 +87,6 @@ public class EnemyModel : Entity, IDamageable
     }
 
     public void RunAttackAnim() => enemyView.AttackAnim();
-    
 
     #region Interacews
 
@@ -110,7 +108,6 @@ public class EnemyModel : Entity, IDamageable
         Detection();
 
         float random = Random.Range(0, 101);
-        Debug.Log(random);
 
         if(random == 3)
         {
@@ -138,7 +135,7 @@ public class EnemyModel : Entity, IDamageable
         life -= damage;
         _enemyRigidBody.AddForce(dir);
     }
-    public void FallDamage(float distanceFall, float damage) { }//Enemies won´t have falling damage
 
+    public void FallDamage(float distanceFall, float damage) { }//Enemies won´t have falling damage
     #endregion
 }

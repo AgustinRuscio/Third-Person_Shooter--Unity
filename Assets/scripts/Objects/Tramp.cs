@@ -29,5 +29,4 @@ public class Tramp : MonoBehaviour
     }
 
     public void ChangeDamage(float newDamage) => _damage = newDamage;
-    
 }
