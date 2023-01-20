@@ -15,6 +15,8 @@ public class EnemyMeeleAttack : MonoBehaviour
     [SerializeField]
     private float _damage;
 
+    private float _currentDamage;
+
     [SerializeField]
     private EnemyModel _enemyModel;
 
@@ -25,17 +27,32 @@ public class EnemyMeeleAttack : MonoBehaviour
 
     private void Awake() => _attackTimer = new GenericTimer(_attackCoolDowm);
 
-    private void Start() => _damage *= PlayerPrefs.GetFloat("EnemyDamageMultiplier");
-
+    private void Start()
+    {
+        _damage *= PlayerPrefs.GetFloat("EnemyDamageMultiplier");
+        _currentDamage = _damage;
+    }
     private void Update() => _attackTimer.RunTimer();
     
     private void OnTriggerStay(Collider other)
     {
         var damageable = other.gameObject.GetComponent<IDamageable>();
 
-        if (damageable != null  && _attackTimer.CheckCoolDown())
+        if (damageable != null && _attackTimer.CheckCoolDown())
         {
+            _damage = _currentDamage;
             _enemyModel.RunAttackAnim();
+            events.FillMeleeVariants(damageable, _damage, _attackTimer);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var damageable = other.gameObject.GetComponent<IDamageable>();
+
+        if (damageable != null && _attackTimer.CheckCoolDown())
+        {
+            _damage = 0;
             events.FillMeleeVariants(damageable, _damage, _attackTimer);
         }
     }
