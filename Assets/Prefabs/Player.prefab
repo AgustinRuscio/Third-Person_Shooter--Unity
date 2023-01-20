@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1088566326
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2063,7 +2063,7 @@ MonoBehaviour:
   _shootDistance: 10
   _timeOnCoolDown: 3
   _granadeRange: 10
-  _damage: 0.1
+  _damage: 0.4
   _granadeAvalible: 3
   _minFallDistance: 1.5
   _myAnimator: {fileID: 2026894848603707440}
