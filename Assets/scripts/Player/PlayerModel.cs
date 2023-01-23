@@ -615,4 +615,10 @@ public class PlayerModel : Entity, IDamageable
             AudioManager.instance.AudioPlay((SoundData)lifeAddedParameters[2], transform.position);
         }       
     }
+
+    private void OnDestroy()
+    {
+        EventManager.UnSuscribe(ManagerKeys.GranadeAdded, AddGranade);
+        EventManager.UnSuscribe(ManagerKeys.LifeAdded, AddLife);
+    }
 }
