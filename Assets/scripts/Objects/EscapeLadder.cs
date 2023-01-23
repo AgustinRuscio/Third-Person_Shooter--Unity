@@ -46,7 +46,7 @@ public class EscapeLadder : MonoBehaviour, IInteractuable
 
     private void OnDestroy()
     {
-        EventManager.Suscribe(ManagerKeys.PauseGame, OnPause);
-        EventManager.Suscribe(ManagerKeys.ResumeGame, OnResume);
+        EventManager.UnSuscribe(ManagerKeys.PauseGame, OnPause);
+        EventManager.UnSuscribe(ManagerKeys.ResumeGame, OnResume);
     }
 }

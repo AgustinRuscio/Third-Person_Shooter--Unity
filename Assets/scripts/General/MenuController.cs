@@ -50,6 +50,7 @@ public class MenuController : MonoBehaviour
     public void BackToMainMenu()
     {
         ClickSound();
+        EventManager.Trigger(ManagerKeys.ResumeGame);
         SceneManager.LoadScene("MainMenu");
     }
 

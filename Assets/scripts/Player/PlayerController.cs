@@ -102,6 +102,8 @@ public class PlayerController
         {
             _pause = !_pause;
 
+            Debug.Log(_pause);
+
             if (_pause)
                 EventManager.Trigger(ManagerKeys.PauseGame);
             else
